@@ -1,0 +1,54 @@
+{% extends "userhome.html" %}
+{% load static %}
+{% block menu_1 %}
+{% endblock menu_1 %}
+{% block reservation_1 %}
+
+    <div class="container-fluid my-5">
+        <div class="container">
+            <div class="reservation position-relative overlay-top overlay-bottom">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 my-5 my-lg-0">
+                        <div class="p-5">
+                            <div class="mb-4">
+                                <h1 class="display-3 text-primary">50% OFF</h1>
+                                <h1 class="text-white">For New Users</h1>
+                            </div>
+                            <p class="text-white">Sign up and Enjoy your Favourite Food at your Home, and get benifits such as- </p>
+                            <ul class="list-inline text-white m-0">
+                                <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Food on less cost</li>
+                                <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>No contact delivery</li>
+                                <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Extra Discount with us</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="text-center p-5" style="background: rgba(51, 33, 29, .8);">
+                            <h1 class="text-white mb-4 mt-5"><img src="{% static 'img/profile.png' %}" height="150px" alt="Profile"></h1>
+                            <form class="mb-5" action="" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <input type="text" class="form-control bg-transparent border-primary p-4" name="first_name" maxlength="25" autocapitalize="none" autocomplete="first_name" autofocus id="id_first_name" placeholder="First Name">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control bg-transparent border-primary p-4" name="last_name" autocomplete="last_name" id="id_last_name" placeholder="Last Name">
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" class="form-control bg-transparent border-primary p-4" name="email" autocomplete="email" id="id_email" placeholder="Email Address">
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary btn-block font-weight-bold py-3" type="submit">Save</button>
+                                </div>
+                                <!-- <br/>
+                                <p>---------------------------------OR--------------------------------</p>
+                                <center><p>Already Have an Account</p></center>
+                                <a href="{% url 'login' %}"><button class="btn btn-primary btn-block font-weight-bold py-3" type="button">Sign In</button></a> -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock reservation_1 %}
