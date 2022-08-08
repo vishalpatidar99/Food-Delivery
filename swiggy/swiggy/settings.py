@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'swiggy',
     'user',
     'phonenumber_field',
+    'restaurant',
+    'deliveryperson',
 ]
 
 MIDDLEWARE = [

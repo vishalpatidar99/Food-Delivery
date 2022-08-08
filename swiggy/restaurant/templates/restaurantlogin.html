@@ -1,0 +1,94 @@
+{% extends "userhome.html" %}
+{% block carousel_1%}
+{% endblock carousel_1%}
+{% block navbar_1 %}
+{% endblock navbar_1 %}
+{% block menu_1 %}
+{% endblock menu_1 %}
+{% block footer_2 %}
+{% endblock footer_2 %}
+{% block reservation_1 %}
+
+    <div class="container-fluid my-5">
+        <div class="container">
+            <div class="reservation position-relative overlay-top overlay-bottom">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 my-5 my-lg-0">
+                        <div class="p-5">
+                            <div class="mb-4">
+                                <h1 class="display-3 text-primary">For Restaurant</h1>
+                            </div>
+                            <p class="text-white">Sign up and Expand Your Business with us and get benifits such as- </p>
+                            <ul class="list-inline text-white m-0">
+                                <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>No cost Marketing</li>
+                                <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Online Croud on your Platform</li>
+                                <li class="py-2"><i class="fa fa-check text-primary mr-3"></i>Reach at every House</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="text-center p-5" style="background: rgba(51, 33, 29, .8);">
+                            <h1 class="text-white mb-4 mt-5">Join us</h1>
+                            <form class="mb-5" action="" method="post">
+                                {% csrf_token %}
+                                <!-- {{form.as_div}} -->
+                                <div class="form-group">
+                                    <input type="email" class="form-control bg-transparent border-primary p-4" name="email" maxlength="50" required id="id_email" placeholder="Email">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control bg-transparent border-primary p-4" name="password" required id="id_password" placeholder="Password">
+                                </div>
+                                {% comment %} <div class="form-group">
+                                    <input type="text" class="form-control bg-transparent border-primary p-4" name="restaurant_name" maxlength="100" required id="id_restaurant_name" placeholder="Restaurant Name">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control bg-transparent border-primary p-4" name="owner_name" maxlength="100" required id="id_owner_name" placeholder="Owner Name">
+                                </div>
+                                <div class="form-group">
+                                    <input type="tel" class="form-control bg-transparent border-primary p-4" name="owner_phone" maxlength="128" required id="id_owner_phone" placeholder="Phone">
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_opening_time">Opening Time</label>
+                                    <input type="time" class="form-control bg-transparent border-primary p-4" name="opening_time" id="id_opening_time" placeholder="Opening Time">
+                                </div>
+                                <div class="form-group">
+                                    <label for="id_closing_time">Closing Time</label>
+                                    <input type="time" class="form-control bg-transparent border-primary p-4" name="closing_time" id="id_closing_time" placeholder="Closing Time">
+                                </div>
+                                <div class="form=-group">
+                                    <button class="btn btn-primary font-weight-medium py-2" onclick="document.getElementById('id_photo').click();">Upload Photos</button>
+                                </div>
+                                <br/>
+                                <div class="form=-group">
+                                    <button class="btn btn-primary font-weight-medium py-2" onclick="document.getElementById('id_FSSAI_licence').click();">FSSAI Photo</button>
+                                </div>
+                                <br/>
+                                <div class="form=-group">
+                                    <button class="btn btn-primary font-weight-medium py-2" onclick="document.getElementById('id_GSTIN_certificate').click();">GSTIN Photo</button>
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control bg-transparent border-primary p-4" name="photo"
+                                    multiple id="id_photo">
+                                </div>  
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control bg-transparent border-primary p-4" name="FSSAI_licence" id="id_FSSAI_licence">
+                                </div>  
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control bg-transparent border-primary p-4" name="GSTIN_certificate" id="id_GSTIN_certificate">
+                                </div>   {% endcomment %}
+                                <div>
+                                    <button class="btn btn-primary btn-block font-weight-bold py-3" type="submit">Sign Up</button>
+                                </div>
+                                <br/>
+                                <p>---------------------------------OR--------------------------------</p>
+                                <center><p>Don't Have an Account</p></center>
+                                <a href="{% url 'restaurant:restaurant-register' %}"><button class="btn btn-primary btn-block font-weight-bold py-3" type="button">Sign Up</button></a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock reservation_1 %}

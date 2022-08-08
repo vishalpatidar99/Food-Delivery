@@ -3,7 +3,8 @@ from django.views import generic
 from django.urls import reverse
 from django.contrib.auth.models import User
 from .forms import*
-
+from django.contrib.auth import authenticate, login, logout
+# from.models import *
 # Create your views here.
 
 class UserHome(generic.View):
@@ -32,13 +33,22 @@ class EditProfile(generic.View):
             User.objects.filter(username=request.user).update(email=email)
         return redirect(reverse('user:userhome'))
 
-class RestaurantRegistration(generic.View):
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            form = RestaurantForm()
-            return render(request, 'restaurantregister.html',{'form':form})
-        else:
-            return redirect('login')
+# class RestaurantLogin(generic.View):
+#     def get(self, request, *args, **kwargs):
+#         if request.user.is_authenticated:
+#             form = RestaurantLoginForm()
+#             return render(request, 'restaurantlogin.html',{'form':form})
+#         else:
+#             return redirect('login')
 
-    def post(self, request, *args, **kwargs):
-        return redirect('restaurantlogin')
+#     def post(self, request, *args, **kwargs):
+#         email = request.POST['email']
+#         password = request.POST['password']
+#         user = Restaurant.objects.filter(email=email,password=password)
+#         print(user)
+#         if user is not None:
+#             print(user)
+#             # login(request,user)
+#             return redirect(reverse('user:restaurant-register'))
+#         else:
+#             return redirect(reverse('user:restaurant-login'))

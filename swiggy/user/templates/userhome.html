@@ -17,7 +17,6 @@
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Profile</a>
                         <div class="dropdown-menu text-capitalize"> 
                             <a href="{% url 'user:edit-profile' %}" class="dropdown-item">Edit Profile</a>
-                            <a href="testimonial.html" class="dropdown-item">Wallet</a>
                             <a href="testimonial.html" class="dropdown-item">Cart</a>
                             <a href="testimonial.html" class="dropdown-item">My Orders</a>
                             <a href="testimonial.html" class="dropdown-item">My offers</a>
@@ -26,8 +25,8 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Swiggy Business</a>
                         <div class="dropdown-menu text-capitalize">
-                            <a href="{% url 'user:restaurant-register' %}" class="dropdown-item">Restaurant</a>
-                            <a href="testimonial.html" class="dropdown-item">Delivery Person</a>
+                            <a href="/user/restaurant/" class="dropdown-item">Restaurant</a>
+                            <a href="/user/deliveryperson/" class="dropdown-item">Delivery Person</a>
                         </div>
                     </div>
                     <a href="{% url 'logout' %}" class="nav-item nav-link">Log out</a>    
