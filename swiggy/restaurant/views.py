@@ -2,22 +2,48 @@ from django.shortcuts import render, redirect
 from .models import*
 from django.views import generic
 from django.urls import reverse
+from .forms import*
 
 # Create your views here.
 class RestaurantRegistration(generic.View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return render(request, 'restaurantregister.html')
+            form = RestaurantForm()
+            return render(request, 'restaurantregister.html', {'form':form})
         else:
-            return redirect(reverse('restaurant:restaurant-login'))
+            return redirect('login')
 
     def post(self, request, *args, **kwargs):
-        restaurant_name=request.POST['restaurant_name']
-        phone = request.POST['phone']
-        opening_time=request.POST['opening_time']
-        closing_time=request.POST['closing_time']
-        FSSAI_licence=request.FILES.get('fssai_licence')
-        GSTIN_certificate=request.FILES.get('gstin_certificate')
-        photos = request.FILES.getlist('photos')
-        Restaurant.objects.create(user=request.user, restaurant_name=restaurant_name, phone=phone, opening_time=opening_time, closing_time=closing_time)
-        return redirect(reverse('restaurant:restaurant-register'))
+        form = RestaurantForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.instance.user = request.user
+            form.save()
+            return redirect(reverse('user:restaurant:home'))
+        else:
+            return redirect('login')
+
+# class RestaurantLogin(generic.View):
+#     def get(self, request, *args, **kwargs):
+#         if request.user.is_authenticated:
+#             return render(request, 'restaurantlogin.html')
+#         else:
+#             return redirect('login')
+
+#     def post(self, request, *args, **kwargs):
+#         email = request.POST['email']
+#         password = request.POST['password']
+#         print(request.user.password)
+#         if email==request.user.email and password==request.user.password:
+#             print('yes')
+#         else:
+#             print('No')
+#         return render(request, 'restaurantlogin.html')
+
+class RestaurantHome(generic.View):
+    def get(self, request, *args, **kwargs):
+        res = Restaurant.objects.filter(user=request.user).first()
+        return render(request, 'restauranthome.html',{'res':res})
+
+class Dish(generic.View):
+    def get(self, request, *args, **kwargs):
+        return render(request,'dish.html')

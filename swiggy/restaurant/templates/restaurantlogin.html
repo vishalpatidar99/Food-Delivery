@@ -55,17 +55,6 @@
                                     <label for="id_closing_time">Closing Time</label>
                                     <input type="time" class="form-control bg-transparent border-primary p-4" name="closing_time" id="id_closing_time" placeholder="Closing Time">
                                 </div>
-                                <div class="form=-group">
-                                    <button class="btn btn-primary font-weight-medium py-2" onclick="document.getElementById('id_photo').click();">Upload Photos</button>
-                                </div>
-                                <br/>
-                                <div class="form=-group">
-                                    <button class="btn btn-primary font-weight-medium py-2" onclick="document.getElementById('id_FSSAI_licence').click();">FSSAI Photo</button>
-                                </div>
-                                <br/>
-                                <div class="form=-group">
-                                    <button class="btn btn-primary font-weight-medium py-2" onclick="document.getElementById('id_GSTIN_certificate').click();">GSTIN Photo</button>
-                                </div>
                                 <div class="form-group">
                                     <input type="hidden" class="form-control bg-transparent border-primary p-4" name="photo"
                                     multiple id="id_photo">
@@ -82,7 +71,7 @@
                                 <br/>
                                 <p>---------------------------------OR--------------------------------</p>
                                 <center><p>Don't Have an Account</p></center>
-                                <a href="{% url 'restaurant:restaurant-register' %}"><button class="btn btn-primary btn-block font-weight-bold py-3" type="button">Sign Up</button></a>
+                                <a href="{% url 'user:restaurant:register' %}"><button class="btn btn-primary btn-block font-weight-bold py-3" type="button">Sign Up</button></a>
                             </form>
                         </div>
                     </div>

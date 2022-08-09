@@ -2,6 +2,8 @@ from django.shortcuts import redirect, render
 from django.views import generic
 from django.urls import reverse
 from django.contrib.auth.models import User
+
+from restaurant.models import*
 from .forms import*
 from django.contrib.auth import authenticate, login, logout
 # from.models import *
@@ -10,7 +12,8 @@ from django.contrib.auth import authenticate, login, logout
 class UserHome(generic.View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return render(request, 'userhome.html')
+            res = Restaurant.objects.all()
+            return render(request, 'userhome.html', {'res':res})
         else:
             return redirect('login')
 
@@ -25,12 +28,14 @@ class EditProfile(generic.View):
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         email = request.POST['email']
-        if first_name!='':
-            User.objects.filter(username=request.user).update(first_name=first_name)
+        print(request.user)
+        print(request.user.username)
+        if first_name !='':
+            User.objects.filter(username=request.user.username).update(first_name=first_name)
         if last_name!='':
-            User.objects.filter(username=request.user).update(last_name=last_name)
+            User.objects.filter(username=request.user.username).update(last_name=last_name)
         if email!='':
-            User.objects.filter(username=request.user).update(email=email)
+            User.objects.filter(username=request.user.username).update(email=email)
         return redirect(reverse('user:userhome'))
 
 # class RestaurantLogin(generic.View):
