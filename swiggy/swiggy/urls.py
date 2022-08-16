@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from . import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 app_name='swiggy'
 urlpatterns = [
@@ -28,4 +30,5 @@ urlpatterns = [
     path("login/",views.UserLogin.as_view(),name='login'),
     path("logout/",views.Logout.as_view(),name='logout'),
     path('user/', include('user.urls', namespace='user')),
-]
+] + static(settings.MEDIA_URL, 
+             document_root=settings.MEDIA_ROOT)

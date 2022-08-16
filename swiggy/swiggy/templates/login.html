@@ -1,9 +1,16 @@
 {% extends "index.html" %}  
-
 {% block menu_1 %}
 {% endblock menu_1 %}
 
 {% block reservation_1 %}
+
+{% if messages %}
+<ul class="messages">
+{% for message in messages %}
+<li {% if message.tags %} class="{{ messages.tags }}"{% endif %}>{{message}}</li>
+{% endfor %}
+<ul>
+{% endif %}
 
     <div class="container-fluid my-5">
         <div class="container">

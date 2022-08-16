@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .forms import*
 from django.urls import reverse
+from django.contrib import messages
 
 class Home(generic.TemplateView):
     template_name = 'index.html'
@@ -46,6 +47,7 @@ class UserLogin(generic.View):
             return redirect(reverse('user:userhome'))
         else:
             form = AuthenticationForm() 
+            messages.error(request, 'Invalid Details, Try again')
             return render(request,'login.html',{'form':form})
 
 class Logout(generic.View):

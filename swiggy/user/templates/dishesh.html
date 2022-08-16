@@ -1,0 +1,46 @@
+{% extends 'userhome.html' %}
+{% load static %}
+{% block menu_1 %}
+<style>
+    .dishesh{
+        margin-left: 12px;
+        display: inline-block;
+    }
+    .dish-items{
+        height: 250px;
+        width: 250px;
+        display: inline-block;
+        margin-left: 13px;
+    }
+    .image{
+        height: 150px;
+        width: 200px;
+    }
+    .details{
+        margin-top: 5px;
+        width: 100px;
+        width: 250px;
+    }
+    .restau{
+        margin-top: 10px;
+        padding-top: 10px;
+        color: brown;
+    }
+    .pricetag{
+        margin-top: 3px;
+        color: brown    
+    }
+</style>
+<div class="dishesh">
+    {% for item in res %}
+<div class="dish-items">
+    <center><div class="image"><img src="{{item.photo.url}}" alt="{{item.name}}"></div></center>
+    <div class="details">
+       <div class="restau"> <center>{{item.name}}</center>
+        <center><p class="pricetag"><form action="" method="post">{% csrf_token %} <input type="hidden" name="dish" value="{{item.id}}"><input type="submit" value="ADD &#8377;{{item.price_set.all.first.price_of_dish}}"></form></p><center>
+        <center><p class="pricetag">{{item.description}}</p></div></center>
+    </div>
+</div>
+{% endfor %}
+</div>
+{% endblock menu_1 %}

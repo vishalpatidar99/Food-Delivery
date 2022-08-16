@@ -7,4 +7,5 @@ urlpatterns=[
     # path('login/',views.RestaurantLogin.as_view(), name='login'),
     path('home/', views.RestaurantHome.as_view(), name='home'),
     path('dish/', views.Dish.as_view(), name='dish'),
+    path('price/', views.Price.as_view(), name='dishprice'),
     ]

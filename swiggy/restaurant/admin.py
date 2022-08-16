@@ -3,3 +3,5 @@ from .models import *
 
 # Register your models here.
 admin.site.register(Restaurant)
+admin.site.register(Dish)
+admin.site.register(Price)

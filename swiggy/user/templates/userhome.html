@@ -1,48 +1,103 @@
 {% extends "index.html" %}
-{% block navbar_1 %}
-    <div class="container-fluid p-0 nav-bar">
-        <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
-            <a href="{% url 'user:userhome' %}" class="navbar-brand px-lg-4 m-0">
-                <h6 class="m-0 display-4 text-uppercase text-white">SWIGGY</h6>
-            </a>
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
-                <div class="navbar-nav ml-auto p-4">
-                    <a href="{% url 'user:userhome' %}" class="nav-item nav-link active">Home</a>
-                    <!-- <a href="{% url 'about' %}" class="nav-item nav-link">About</a> -->
-                    <!-- <a href="{% url 'service' %}" class="nav-item nav-link">Service</a> -->
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Profile</a>
-                        <div class="dropdown-menu text-capitalize"> 
-                            <a href="{% url 'user:edit-profile' %}" class="dropdown-item">Edit Profile</a>
-                            <a href="testimonial.html" class="dropdown-item">Cart</a>
-                            <a href="testimonial.html" class="dropdown-item">My Orders</a>
-                            <a href="testimonial.html" class="dropdown-item">My offers</a>
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Swiggy Business</a>
-                        <div class="dropdown-menu text-capitalize">
-                            <a href="/user/restaurant/" class="dropdown-item">Register Restaurant</a>
-                            <a href="/user/deliveryperson/" class="dropdown-item">Delivery Person</a>
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Restaurants</a>
-                        <div class="dropdown-menu text-capitalize">
-                            {% for r in res %}
-                            <a href="{% url 'user:restaurant:home'%}" class="dropdown-item">{{r}}</a>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <a href="{% url 'logout' %}" class="nav-item nav-link">Log out</a>    
-                    <!-- <a href="contact.html" class="nav-item nav-link">Contact</a> -->
-                </div>
-            </div>
-        </nav>
-        <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{user}} -->
+{% load static %}
+{% block menu_1 %}
+<style>
+    .dishesh{
+        margin-left: 12px;
+        display: inline-block;
+    }
+    .dish-items{
+        height: 250px;
+        width: 250px;
+        display: inline-block;
+        margin-left: 13px;
+    }
+    .image{
+        height: 150px;
+        width: 200px;
+    }
+    .details{
+        margin-top: 5px;
+        width: 100px;
+        width: 250px;
+    }
+    .restau{
+        margin-top: 10px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        color: brown;
+    }
+</style>
+<div class="dishesh">
+    {% for item in items %}
+<a href="{% url 'user:dishesh' item.id %}">
+<div class="dish-items">
+    <center><div class="image"><img src="{{item.dish_set.all.first.photo.url}}" alt="{{item.restaurant_name}}"></div></center>
+    <div class="details">
+        <center><div class="restau">{{item.restaurant_name}}</div></center>
     </div>
+</div>
+{% endfor %}
+</div></a>
+{% endblock menu_1 %}
+{% block navbar_1 %}
+<div class="container-fluid p-0 nav-bar">
+    <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
+        <a href="{% url 'user:userhome' %}" class="navbar-brand px-lg-4 m-0">
+            <h6 class="m-0 display-4 text-uppercase text-white">SWIGGY</h6>
+        </a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between"
+            id="navbarCollapse">
+            <div class="navbar-nav ml-auto p-4">
+                <a href="{% url 'user:userhome' %}" class="nav-item nav-link
+                    active">Home</a>
+                <!-- <a href="{% url 'about' %}" class="nav-item nav-link">About</a> -->
+                <!-- <a href="{% url 'service' %}" class="nav-item nav-link">Service</a> -->
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle"
+                        data-toggle="dropdown">Restaurants</a>
+                    <div class="dropdown-menu text-capitalize">
+                        {% for r in items %}
+                        <a href="{% url 'user:restaurant:home' %}"
+                            class="dropdown-item">{{r}}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle"
+                        data-toggle="dropdown">Swiggy Business</a>
+                    <div class="dropdown-menu text-capitalize">
+                        <a href="/user/restaurant/" class="dropdown-item">Register
+                            Restaurant</a>
+                        <a href="/user/deliveryperson/" class="dropdown-item">Delivery
+                            Person</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle"
+                        data-toggle="dropdown">Profile</a>
+                    <div class="dropdown-menu text-capitalize">
+                        <a href="{% url 'user:edit-profile' %}"
+                            class="dropdown-item">{{user.get_full_name}}</a>
+                        <a href="testimonial.html" class="dropdown-item">Cart</a>
+                        <a href="testimonial.html" class="dropdown-item">My
+                            Orders</a>
+                        <a href="testimonial.html" class="dropdown-item">My
+                            offers</a>
+                        <a href="{% url 'user:edit-profile' %}"
+                            class="dropdown-item">Edit Profile</a>
+                    </div>
+                </div>
+                <a href="{% url 'logout' %}" class="nav-item nav-link">Log out</a>
+                <!-- <a href="contact.html" class="nav-item nav-link">Contact</a> -->
+            </div>
+        </div>
+    </nav>
+    <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{user}} -->
+</div>
 
 {% endblock navbar_1 %}

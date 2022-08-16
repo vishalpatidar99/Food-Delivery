@@ -3491,7 +3491,6 @@ input[type="button"].btn-block {
   display: block;
   min-height: 1.5rem;
   padding-left: 1.5rem;
-  color-adjust: exact;
 }
 
 .custom-control-inline {
@@ -9653,8 +9652,18 @@ h6,
 .page-header,
 .offer,
 .footer {
-  background: linear-gradient(rgba(51, 33, 29, 0.9), rgba(51, 33, 29, 0.9)), url(../img/bg.jpg);
+  background: linear-gradient(rgba(51, 33, 29, 0.9), rgba(51, 33, 29, 0.9)), url(../img/pexels-ella-olsson-1640777.jpg);
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.dish-item{
+  height: 400px;
+  width: 400px;
+  background-color: orange;
+}
+
+.slide-img{
+  height: 650px;
 }

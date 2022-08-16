@@ -10,9 +10,9 @@ class Restaurant(models.Model):
     phone = PhoneNumberField()
     opening_time = models.TimeField(blank=True)
     closing_time = models.TimeField(blank=True)
-    FSSAI_licence = models.FileField(upload_to='media',blank=True)
-    GSTIN_certificate = models.FileField(upload_to='media', blank=True)
-    photos = models.FileField(upload_to='media', blank=True)
+    FSSAI_licence = models.FileField(upload_to='restaurant/fssai/',blank=True)
+    GSTIN_certificate = models.FileField(upload_to='restaurant/gstin/', blank=True)
+    photos = models.FileField(upload_to='restaurant/photo/', blank=True)
     verify = models.BooleanField(default=False)
 
     def __str__(self):
@@ -25,6 +25,7 @@ class Dish(models.Model):
 
     class DISH_TYPE_CHOICES(models.TextChoices):
         STARTER = 'starter', _('Starter')
+        BREAKFAST = 'break', _('Break Fast')
         MAINCOURSE = 'main', _('Main Course')
         FASTFOOD = 'Fast', _('Fast Food')
         DESSERT = 'Dessert', _('Dessert')
@@ -33,16 +34,21 @@ class Dish(models.Model):
     name = models.CharField(max_length=100)
     dish_type = models.CharField(max_length=8, choices=DISH_TYPE_CHOICES.choices)
     menu_type = models.CharField(max_length=3, choices=MENU_TYPE_CHOICES.choices)
-    photo = models.FileField(upload_to='media')
+    photo = models.FileField(upload_to='dish')
     description = models.TextField()
+
+    def __str__(self):
+        return self.name
 
 class Price(models.Model):
     class SIZE_CHOICES(models.TextChoices):
         FULL = 'f', _('Full')
         HALF = 'h', _('Half')
-    
+        NONE = 'n', _('None')
+
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
     size = models.CharField(max_length=1, choices=SIZE_CHOICES.choices, blank=True, null=True)
-    quantity = models.IntegerField(default=1)
     price_of_dish = models.CharField(max_length=4)
  
+    def __str__(self):
+        return self.dish.name+' '+self.price_of_dish
