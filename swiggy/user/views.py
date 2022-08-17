@@ -77,8 +77,27 @@ class RestaurantDetails(generic.View):
         
 class Cart(generic.View):
     def get(self, request, *args, **kwargs):
+        quantity = 1
         if request.user.is_authenticated:
-            items = CartItems.objects.all()
-            return render(request, 'cart.html', {'items':items})
+            items = CartItems.objects.filter(user=request.user)
+            total = 0
+            for i in items:
+                total += int(i.dish.price_set.all().first().price_of_dish)
+            return render(request, 'cart.html', {'res':items,'quantity':quantity,'total':total})
         else:
             return redirect('login')
+
+    # def post(self, request, *args, **kwargs):
+    #     # import pdb;pdb.set_trace()
+    #     quantity = 1
+    #     plus = request.POST['plus']
+    #     # minus = request.POST['minus']
+    #     if plus != '':
+    #         quantity+=1
+    #     # elif minus != '':
+    #     #     quantity-=1
+    #     else:
+    #         quantity = 1
+
+    #     items = CartItems.objects.all()
+    #     return render(request, 'cart.html', {'res':items,'quantity':quantity})

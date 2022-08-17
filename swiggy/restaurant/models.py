@@ -51,4 +51,4 @@ class Price(models.Model):
     price_of_dish = models.CharField(max_length=4)
  
     def __str__(self):
-        return self.dish.name+' '+self.price_of_dish
+        return self.dish.name

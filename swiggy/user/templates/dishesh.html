@@ -5,12 +5,15 @@
     .dishesh{
         margin-left: 12px;
         display: inline-block;
+        
     }
     .dish-items{
         height: 250px;
         width: 250px;
         display: inline-block;
         margin-left: 13px;
+        background-color: #e6e6e2;
+        box-shadow: 0px 0px 5px #e4e1e1;
     }
     .image{
         height: 150px;
@@ -32,12 +35,12 @@
     }
 </style>
 <div class="dishesh">
-    {% for item in res %}
+{% for item in res %}
 <div class="dish-items">
     <center><div class="image"><img src="{{item.photo.url}}" alt="{{item.name}}"></div></center>
     <div class="details">
        <div class="restau"> <center>{{item.name}}</center>
-        <center><p class="pricetag"><form action="" method="post">{% csrf_token %} <input type="hidden" name="dish" value="{{item.id}}"><input type="submit" value="ADD &#8377;{{item.price_set.all.first.price_of_dish}}"></form></p><center>
+        <center><p class="pricetag"><form action="" method="post">{% csrf_token %}<input type="hidden" name="dish" value="{{item.id}}"><input type="submit" value="ADD &#8377;{{item.price_set.all.first.price_of_dish}}"></form></p><center>
         <center><p class="pricetag">{{item.description}}</p></div></center>
     </div>
 </div>
