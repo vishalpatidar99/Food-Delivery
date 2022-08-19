@@ -1,4 +1,4 @@
-{% extends 'userhome.html' %}
+{% extends "cart.html" %}
 {% load static %}
 {% block menu_1 %}
 <style>
@@ -41,8 +41,8 @@
     .checkout{
         margin-top: 25px;
         background-color: burlywood;
-        width: 250px;
-        height: 80px;
+        width: 227px;
+        height: 57px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -143,7 +143,40 @@
     .content{
         color: gray;
     }
+    .main{
+        display: flex;
+        height: 100%;
+        width: 100%;
+    }
+    .main_1{
+        width: 60%;
+    }
+    .main_2{
+        width: 30%;
+        height: 760px;
+        background-color: aqua;
+    }
+    .address{
+        height: 500px;
+        width: 100%;
+        margin-top: 150px;
+        display: flex;
+        justify-content: center;
+    }
+    .address_1{
+        width: 269.69px;
+        height: 100px;
+        background-color: blueviolet;
+        display: flex;
+        align-items: center;
+    }
+    fieldset{
+        border: 3px solid black;
+        height: auto;
+    }
 </style>
+<div class="main">
+    <div class="main_1">
 <div class="cartlogo">
     <img src="{% static 'img/cart.png' %}" alt="cart" height="150px"
         width="auto">
@@ -175,7 +208,25 @@
     </div>
 </div>
 {% endfor %}
-<div class="footer2">
-    <a id="placeorder" href="{%  url 'user:placeorder' %}"><div class="checkout"><div class="content">CHECKOUT</div><div class="total">&#8377;{{total}}</div></div></a>
 </div>
+<div class="main_2">
+<form action="" method="post">
+<div class="address">
+    <fieldset>
+        <legend>Select Address</legend>
+        {% csrf_token %}
+        {% for i in user_address %}
+        <div class="address_1">
+            <input type="radio" name="address" value="{{i.id}}">{{i.address}}
+        </div>
+        {% endfor %}
+    </fieldset>
+</div>
+<div class="footer2">
+    <a id="placeorder" href=""><div class="checkout"><div class="content">MAKE PAYMENT</div><div class="total">&#8377;{{total}}</div></div></a>
+</div> 
+</form>  
+</div>
+</div>
+
 {% endblock menu_1 %}

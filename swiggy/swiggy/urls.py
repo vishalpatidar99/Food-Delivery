@@ -30,5 +30,4 @@ urlpatterns = [
     path("login/",views.UserLogin.as_view(),name='login'),
     path("logout/",views.Logout.as_view(),name='logout'),
     path('user/', include('user.urls', namespace='user')),
-] + static(settings.MEDIA_URL, 
-             document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

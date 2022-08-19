@@ -4,19 +4,23 @@
 <style>
     .dishesh{
         margin-left: 12px;
-        display: inline-block;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
     }
     .dish-items{
         height: 250px;
         width: 250px;
         display: inline-block;
-        margin-left: 13px;
+        margin: 20px;
         background-color: #e6e6e2;
         box-shadow: 0px 0px 5px #e4e1e1;
+        border-radius: 10px;
     }
     .image{
         height: 150px;
         width: 200px;
+        padding-top: 12px;
     }
     .details{
         margin-top: 5px;
@@ -37,7 +41,7 @@
     {% for item in items %}
 <a href="{% url 'user:dishesh' item.id %}">
 <div class="dish-items">
-    <center><div class="image"><img src="{{item.dish_set.all.first.photo.url}}" alt="{{item.restaurant_name}}"></div></center>
+    <center><div class="image"><img src="{{item.dish_set.all.first.photo.url}}" height="150px" width="150px" alt="{{item.restaurant_name}}"></div></center>
     <div class="details">
         <center><div class="restau">{{item.restaurant_name}}</div></center>
     </div>
@@ -89,10 +93,12 @@
                         <a href="{% url 'user:edit-profile' %}"
                             class="dropdown-item">{{user.get_full_name}}</a>
                         <a href="{% url 'user:cart' %}" class="dropdown-item"><img src="{% static 'img/cart.png' %}" alt="cart" height="25px" width="25px"> Cart</a>
-                        <a href="testimonial.html" class="dropdown-item">My
+                        <a href="" class="dropdown-item">My
                             Orders</a>
-                        <a href="testimonial.html" class="dropdown-item">My
+                        <a href="" class="dropdown-item">My
                             offers</a>
+                        <a href="{% url 'user:address' %}" class="dropdown-item">Add
+                            Address</a>
                     </div>
                 </div>
                 <a href="{% url 'logout' %}" class="nav-item nav-link">Log out</a>

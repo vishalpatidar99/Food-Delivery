@@ -1,6 +1,7 @@
-# from django import forms
-# from .models import*
-# from django.contrib.auth.forms import AuthenticationForm
+from django import forms
+from .models import*
+from django.contrib.auth.forms import AuthenticationForm
+from swiggy.models import*
 
 # class RestaurantForm(forms.ModelForm):
 #     class Meta:
@@ -12,3 +13,8 @@
 #     class Meta:
 #         model = Restaurant
 #         fields = ['email','password']
+
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        exclude = ['user','restaurant']

@@ -1,0 +1,82 @@
+{% extends 'userhome.html' %}
+{% load static %}
+{% block carousel_2 %}
+        <div id="blog-carousel" class="carousel slide overlay-bottom" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="slide-img w-100" src="{%static 'img/istockphoto-1187784620-170667a.jpg'%}" alt="Image">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                        <h2 class="text-primary font-weight-medium m-0">We Have Been Serving</h2>
+                        <h1 class="display-1 text-white m-0">FOOD</h1>
+                        <h2 class="text-white m-0">* SINCE 2006 *</h2>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="slide-img w-100" src="{{restau.restaurant.photo.url}}" alt="{{restau.restaurant.name}}">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                        <h2 class="text-primary font-weight-medium m-0">We Have Been Serving</h2>
+                        <h1 class="display-1 text-white m-0">FOOD</h1>
+                        <h2 class="text-white m-0">* SINCE 2006 *</h2>
+                    </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#blog-carousel" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#blog-carousel" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+        </div>
+{% endblock carousel_2 %}
+{% block menu_1 %}
+<style>
+    .dishesh{
+        margin-left: 12px;
+        display: flex;
+        justify-content: center;
+    }
+    .dish-items{
+        height: 250px;
+        width: 250px;
+        display: inline-block;
+        margin: 20px;
+        background-color: #e6e6e2;
+        box-shadow: 0px 0px 5px #e4e1e1;
+        border-radius: 10px;
+    }
+    .image{
+        height: 150px;
+        width: 200px;
+        padding-top: 12px;
+    }
+    .details{
+        margin-top: 5px;
+        width: 100px;
+        width: 250px;
+    }
+    .restau{
+        margin-top: 10px;
+        padding-top: 10px;
+        color: brown;
+    }
+    .pricetag{
+        margin-top: 3px;
+        color: brown    
+    }
+    img{
+        border-radius: 7px;
+    }
+</style>
+<div class="dishesh">
+{% for item in res %}
+<div class="dish-items">
+    <center><div class="image"><img src="{{item.photo.url}}" height="150px" width="150px" alt="{{item.name}}"></div></center>
+    <div class="details">
+       <div class="restau"> <center>{{item.name.title}}</center>
+        <center><p class="pricetag"><form action="" method="post">{% csrf_token %}<input type="hidden" name="dish" value="{{item.id}}"><input type="submit" value="ADD &#8377;{{item.price_set.all.first.price_of_dish}}"></form></p></center>
+        </div>
+    </div>
+</div>
+{% endfor %}
+</div>
+{% endblock menu_1 %}
