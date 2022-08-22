@@ -16,11 +16,18 @@ class UserHome(generic.View):
             return render(request, 'userhome.html', {'items':items})#, 'price':price})
         else:
             return redirect('login')
+    
+    def post(self, request, *args, **kwargs):
+        search_query = request.POST['query']
+        searched_items = Dish.objects.filter(name__contains=search_query)
+        print(searched_items)
+        return render(request,'userhome.html',{'searched_items':searched_items})
 
 class EditProfile(generic.View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return render(request, 'editprofile.html')
+            user = User.objects.get()
+            return render(request, 'editprofile.html',{'user':user})
         else:
             return redirect('login')
 
@@ -86,7 +93,10 @@ class RestaurantMenu(generic.View):
                     return redirect(reverse('user:cart'))
                 return render(request,'restaurantmenu.html',{'res':res})
             else:
+                CartItems.objects.all().delete()
+                CartItems.objects.create(user=request.user, dish=dish,price=dish.price_set.all().first().price_of_dish)
                 return render(request,'restaurantmenu.html',{'res':res})
+
         else:
             CartItems.objects.create(user=request.user,dish=dish,price=dish.price_set.all().first().price_of_dish)
             return render(request,'restaurantmenu.html',{'res':res})
@@ -117,26 +127,22 @@ class Cart(generic.View):
             if (status == 'del'or q == '1'):
                 CartItems.objects.get(id=int(item_id)).delete()
                 
+            user_address = Address.objects.filter(user=request.user)
             items = CartItems.objects.filter(user=request.user,paid=False)
             total_price = 0
             for i in items:
                 total_price += i.price
 
-            return render(request, 'cart.html', {'res':items,'total':total_price})
+            if len(items)>0:
+                to_pay = total_price + 50
+            else:
+                to_pay = 0
+
+            return render(request, 'cart.html', {'res':items,'user_address':user_address,'total':total_price,'to_pay':to_pay})
         else:
             return redirect('login')
 
     # def post(self, request, *args, **kwargs):
-    #     # import pdb;pdb.set_trace()
-    #     quantity = 1
-    #     plus = request.POST['plus']
-    #     # minus = request.POST['minus']
-    #     if plus != '':
-    #         quantity+=1
-    #     # elif minus != '':
-    #     #     quantity-=1
-    #     else:
-    #         quantity = 1
 
     #     items = CartItems.objects.all()
     #     return render(request, 'cart.html', {'res':items,'quantity':quantity})
@@ -159,13 +165,25 @@ class AddAddress(generic.View):
         else:
             return render(request,'address.html')
     
-class PlaceOrder(generic.View):
-    def get(self, request, *args, **kwargs):
+# class PlaceOrder(generic.View):
+#     def get(self, request, *args, **kwargs):
+#         items = CartItems.objects.filter(user=request.user,paid=False)
+#         total_price = 0
 
-        items = CartItems.objects.filter(user=request.user,paid=False)
-        total_price = 0
-        for i in items:
-            total_price += i.price
-        
-        user_address = Address.objects.filter(user=request.user)
-        return render(request, 'placeorder.html',{'res':items,'total':total_price,'user_address':user_address})
+#         for i in items:
+#             total_price += i.price
+
+#         to_pay = total_price + 50
+#         user_address = Address.objects.filter(user=request.user)
+#         return render(request, 'placeorder.html',{'res':items,'total':total_price,'user_address':user_address,'to_pay':to_pay})
+    
+#     def post(self,request,*args,**kwargs):
+#         print(request.POST)
+#         items = CartItems.objects.filter(user=request.user,paid=False)
+#         total_price = 0
+#         for i in items:
+#             total_price += i.price
+
+#         to_pay = total_price + 50
+#         user_address = Address.objects.filter(user=request.user)
+#         return render(request, 'placeorder.html',{'res':items,'total':total_price,'user_address':user_address,'to_pay':to_pay})

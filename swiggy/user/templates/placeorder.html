@@ -42,7 +42,7 @@
         margin-top: 25px;
         background-color: burlywood;
         width: 227px;
-        height: 57px;
+        height: 65px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -124,7 +124,6 @@
         border-radius: 10px;
         color: wheat;
         width: 40%;
-        /* float: right;     */
         display: flex;
         justify-content: center;
         justify-items: center;
@@ -137,12 +136,12 @@
         align-items: flex-end;
         height: 25%;
     }
-    #placeorder{
+    /* #placeorder{
         text-decoration: none;
     }
     .content{
         color: gray;
-    }
+    } */
     .main{
         display: flex;
         height: 100%;
@@ -154,25 +153,42 @@
     .main_2{
         width: 30%;
         height: 760px;
-        background-color: aqua;
     }
     .address{
-        height: 500px;
+        height: auto;
         width: 100%;
         margin-top: 150px;
         display: flex;
         justify-content: center;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-content: flex-start;
+        box-shadow: 0px 0px 5px #e4e1e1;
+        background-color: #e6e6e2;
+        border-radius: 10px;
     }
     .address_1{
         width: 269.69px;
-        height: 100px;
-        background-color: blueviolet;
+        height: 60px;
+        /* background-color: blueviolet; */
         display: flex;
         align-items: center;
     }
-    fieldset{
-        border: 3px solid black;
+    .material{
         height: auto;
+        width: 100%;
+    }
+    .dish-material{
+        height: auto;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+    }
+    .dish-name{
+        float: left;
+    }
+    .dish-price{
+        float: right;
     }
 </style>
 <div class="main">
@@ -212,18 +228,45 @@
 <div class="main_2">
 <form action="" method="post">
 <div class="address">
-    <fieldset>
-        <legend>Select Address</legend>
+    <h2>Select Address</h2>
         {% csrf_token %}
         {% for i in user_address %}
         <div class="address_1">
-            <input type="radio" name="address" value="{{i.id}}">{{i.address}}
+            <input type="radio" name="address" id="{{i.id}}" value="{{i.id}} required"/>&nbsp;&nbsp;
+            <label for="{{i.id}}">{{i.address}}</label>
         </div>
         {% endfor %}
-    </fieldset>
+        <div class="material">
+            <div class="dish-material">
+            <div class="dish-name">{% for i in res %}
+                {{i.dish.name}}<br/>
+                {% endfor %}
+                <hr/>
+                Item Total <br/>
+                <br/>
+                Delivery fee <br/>
+                Tax and charges <br/>
+                <hr/>
+                To pay
+            </div>
+            <div class="dish-price">
+                {% for i in res %}
+                &#8377;{{i.price}} <br/>
+                {% endfor %}
+                <hr/>
+                &#8377;{{total}} <br/>
+                <br/>
+                &#8377;25 <br/>
+                &#8377;25 <br/>
+                <hr/>
+                {{to_pay}}
+            </div>
+        </div>
+        </div>
 </div>
+
 <div class="footer2">
-    <a id="placeorder" href=""><div class="checkout"><div class="content">MAKE PAYMENT</div><div class="total">&#8377;{{total}}</div></div></a>
+    <button type="submit" class="checkout">MAKE PAYMENT <div class="total">&#8377;{{to_pay}}</div></button>
 </div> 
 </form>  
 </div>

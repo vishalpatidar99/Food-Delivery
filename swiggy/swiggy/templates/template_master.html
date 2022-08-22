@@ -8,6 +8,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free Website Template" name="keywords">
     <meta content="Free Website Template" name="description">
+{% block css %}
 
     <!-- Favicon -->
     <link href="{% static 'img/logo.png' %}" rel="icon">
@@ -22,10 +23,11 @@
     <!-- Libraries Stylesheet -->
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    
+{% endblock css %}
 
 </head>
 
@@ -243,6 +245,16 @@
 
     <div class="container-fluid pt-5">
 {% block menu_2 %}
+{% block message %}
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ messages.tags }}"{% endif %}>{{message}}</li>
+    {% endfor %}
+    <ul>
+    {% endif %}
+{% endblock message %}
+
         <div class="container">
             <div class="section-title">
                 <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">Menu & Pricing</h4>
