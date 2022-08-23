@@ -9,6 +9,8 @@ class CartItems(models.Model):
     price = models.IntegerField(default=0)
     paid = models.BooleanField(default=False)
     
+    def __str__(self):
+        return self.dish.name
 
 # class OrderDetails(models.Model):
 #     user = models.ForeignKey(User, on_delete=models.CASCADE)

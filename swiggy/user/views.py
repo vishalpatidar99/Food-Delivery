@@ -12,16 +12,22 @@ from swiggy.models import*
 class UserHome(generic.View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            items = Restaurant.objects.all()
-            return render(request, 'userhome.html', {'items':items})#, 'price':price})
+            items = Restaurant.objects.filter(verify=True)
+            return render(request, 'userhome.html', {'items':items})
         else:
             return redirect('login')
     
     def post(self, request, *args, **kwargs):
         search_query = request.POST['query']
         searched_items = Dish.objects.filter(name__contains=search_query)
-        print(searched_items)
-        return render(request,'userhome.html',{'searched_items':searched_items})
+        searched_restaurants = Restaurant.objects.filter(restaurant_name__contains=search_query)
+
+        final_res =[i.restaurant for i in searched_items]
+        res = [i for i in searched_restaurants]
+        final_res.extend(res)
+        final_res = set(final_res)
+        items = Restaurant.objects.filter(verify=True)
+        return render(request, 'userhome.html', {'final_res':final_res,'items':items})
 
 class EditProfile(generic.View):
     def get(self, request, *args, **kwargs):
@@ -141,6 +147,10 @@ class Cart(generic.View):
             return render(request, 'cart.html', {'res':items,'user_address':user_address,'total':total_price,'to_pay':to_pay})
         else:
             return redirect('login')
+        
+    # def post(self, request, *args, **kwargs):
+    #     print(request.POST)
+    #     return render(request, 'cart.html')#, {'res':items,'user_address':user_address,'total':total_price,'to_pay':to_pay})
 
     # def post(self, request, *args, **kwargs):
 
@@ -157,11 +167,15 @@ class AddAddress(generic.View):
 
     def post(self, request, *args, **kwargs):
         form = AddressForm(request.POST)
+        q = request.POST['q']
         if form.is_valid():
+            print(request.POST)
             form.instance.user = request.user
             form.save()
-
-            return redirect(reverse('user:userhome'))
+            if q:
+                return redirect(reverse('user:cart'))
+            else:
+                return redirect(reverse('user:userhome'))
         else:
             return render(request,'address.html')
     

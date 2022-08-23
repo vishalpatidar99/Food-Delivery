@@ -239,7 +239,7 @@
       }
     }
 </script>
-<div class="main">
+<div class="main" style="padding-top: 10%;">
     <div class="main_1">
 <div class="cartlogo">
     <img src="{% static 'img/cart.png' %}" alt="cart" height="150px"
@@ -280,7 +280,7 @@
             {% csrf_token %}
             {% for i in user_address %}
             <div class="address">
-                <input type="radio" name="address" id="{{i.id}}" value="{{i.id}} required"/>&nbsp;&nbsp;
+                <input type="radio" name="address" id="{{i.id}}" value="{{i.id}}" required/>&nbsp;&nbsp;
                 <label for="{{i.id}}">{{i.address}}</label>
             </div>
             {% endfor %}
@@ -328,8 +328,8 @@
     </form>  
     </div>
 </div>
-<div id="id01" class="w3-modal">
-    <div class="w3-modal-content w3-card-4" style="width: 35%;">
+<div id="id01" class="w3-modal" style="padding-top: 3%; z-index: 10;">
+    <div class="w3-modal-content w3-card-4" style="width: 35%; height: 550px;">
       <header class="w3-container w3-teal"> 
         <span onclick="document.getElementById('id01').style.display='none'" 
         class="w3-button w3-display-topright">&times;</span>
@@ -338,8 +338,8 @@
       <div class="w3-container" >
         <div class="col-lg-12">
             <div class="text-center p-5" style="background: rgba(51, 33,
-                29, .8);">
-                <h1 class="text-white mb-4 mt-5">Add New Address</h1>
+                29, .8); height: 550px;">
+                <h1 class="text-white mb-4 mt-5">Add Address</h1>
                 <form class="mb-5" action="/user/address/" method="post">
                     {% csrf_token %}
                     <div class="form-group">
@@ -356,6 +356,7 @@
                             required=""
                             id="id_address"></textarea>
                     </div>
+                    <input type="hidden" name="q" value="yes">
                     <div>
                         <button class="btn btn-primary btn-block font-weight-bold py-3" type="submit">Save</button>
                     </div>
@@ -370,4 +371,3 @@
   </div>
 </div>
 {% endblock menu_1 %}
-<button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-black">Open Modal</button>
