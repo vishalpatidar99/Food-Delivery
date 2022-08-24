@@ -66,11 +66,41 @@
     img{
         border-radius: 7px;
     }
+    .heading{
+        padding-left: 5%;
+        width: 90%;
+        padding-top: 10%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        justify-items: center;
+    }
+    .filter{
+        float: right;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 </style>
-{% block message %}
-{% endblock message %}
 
-<div class="dishesh" style="padding-top: 10%;">
+<div class="heading">
+    <div class="heading_2">
+        {% block message %}
+        {% endblock message %}
+    </div>
+    <div class="filter">
+        <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle"
+                data-toggle="dropdown" style="color: black;">Price</a>
+            <div class="dropdown-menu text-capitalize">
+                <a href="/user/restaurantmenu/?price_filter=low&pk={{pk}}" class="dropdown-item">Low To High</a>
+                <a href="/user/restaurantmenu/?price_filter=high&pk={{pk}}" class="dropdown-item">High to Low</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dishesh" style="padding-top: 10px;">    
 {% for item in res %}
 <div class="dish-items">
     <center><div class="image"><img src="{{item.photo.url}}" height="150px" width="150px" alt="{{item.name}}"></div></center>

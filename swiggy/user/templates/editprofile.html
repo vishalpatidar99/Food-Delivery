@@ -2,9 +2,88 @@
 {% load static %}
 {% block menu_1 %}
 {% endblock menu_1 %}
-{% block reservation_1 %}
+{% block carousel_2 %}
+{% endblock carousel_2 %}
+{% block navbar_1 %}
+<div class="container-fluid p-0 nav-bar" style="background-color: rgba(51, 33, 29, .8); height: 100px; padding-bottom: 10%;">
+    <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
+        <a href="{% url 'user:userhome' %}" class="navbar-brand px-lg-4 m-0">
+            <h6 class="m-0 display-4 text-uppercase text-white">SWIGGY</h6>
+        </a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between"
+            id="navbarCollapse">
+            <div class="navbar-nav ml-auto p-4">
+                <form id="form" action="/user/" method="post">
+                    {% csrf_token %} 
+                    <input type="search" id="query" name="query" placeholder="Search Here">
+                    <button type="submit" class="search-btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                      </svg></button>
+                  </form>
+                <a href="{% url 'user:userhome' %}" class="nav-item nav-link
+                    active">Home</a>
+                <!-- <a href="{% url 'about' %}" class="nav-item nav-link">About</a> -->
+                <!-- <a href="{% url 'service' %}" class="nav-item nav-link">Service</a> -->
+                <!-- <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle"
+                        data-toggle="dropdown">Restaurants</a>
+                    <div class="dropdown-menu text-capitalize">
+                        {% for r in items %}
+                        <a href="{% url 'user:restaurant:home' %}"
+                            class="dropdown-item">{{r}}</a>
+                        {% endfor %}
+                    </div>
+                </div> -->
+                <!-- <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle"
+                        data-toggle="dropdown">Swiggy Business</a>
+                    <div class="dropdown-menu text-capitalize">
+                        <a href="/user/restaurant/" class="dropdown-item">Register
+                            Restaurant</a>
+                        <a href="/user/deliveryperson/" class="dropdown-item">Delivery
+                            Person</a>
+                    </div>
+                </div> -->
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle"
+                        data-toggle="dropdown">{{user.first_name}}</a>
+                    <div class="dropdown-menu text-capitalize">
+                        <a href="{% url 'user:edit-profile' %}"
+                            class="dropdown-item">Edit Profile</a>
+                        <a href="{% url 'user:cart' %}" class="dropdown-item"><img src="{% static 'img/cart.png' %}" alt="cart" height="25px" width="25px"> Cart</a>
+                        <a href="" class="dropdown-item">My
+                            Orders</a>
+                        <a href="" class="dropdown-item">My
+                            offers</a>
+                        <a href="{% url 'user:address' %}" class="dropdown-item">Add
+                            Address</a>
+                        <a href="{% url 'logout' %}" class="dropdown-item">Log out</a>
 
-    <div class="container-fluid my-5">
+                    </div>
+                </div>
+                <!-- <a href="contact.html" class="nav-item nav-link">Contact</a> -->
+            </div>
+        </div>
+    </nav>
+    <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{user}} -->
+</div>
+
+{% endblock navbar_1 %}
+{% block reservation_1 %}
+<style>
+    body{
+        padding-top: 0%;
+        margin-top: 0%;
+    }
+    .mt-5, .my-5 {
+    margin-top: 0rem !important;
+    }
+</style>
+    <div class="container-fluid my-5" style="padding-top: 10%; margin-top: 10%;">
         <div class="container">
             <div class="reservation position-relative overlay-top overlay-bottom">
                 <div class="row align-items-center">

@@ -13,6 +13,7 @@ class Restaurant(models.Model):
     FSSAI_licence = models.FileField(upload_to='restaurant/fssai/',blank=True)
     GSTIN_certificate = models.FileField(upload_to='restaurant/gstin/', blank=True)
     photos = models.FileField(upload_to='restaurant/photo/', blank=True)
+    total_rating = models.IntegerField(default=0)
     verify = models.BooleanField(default=False)
 
     def __str__(self):
@@ -48,7 +49,7 @@ class Price(models.Model):
 
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
     size = models.CharField(max_length=1, choices=SIZE_CHOICES.choices, blank=True, null=True)
-    price_of_dish = models.CharField(max_length=4)
+    price_of_dish = models.IntegerField(default=0)
  
     def __str__(self):
         return self.dish.name

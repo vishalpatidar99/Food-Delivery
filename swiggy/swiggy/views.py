@@ -7,8 +7,10 @@ from .forms import*
 from django.urls import reverse
 from django.contrib import messages
 
-class Home(generic.TemplateView):
-    template_name = 'index.html'
+class Home(generic.View):
+    def get(self, request, *args, **kwargs):
+        
+        return render(request, 'index.html')
 
 class About(generic.TemplateView):
     template_name = 'about.html'

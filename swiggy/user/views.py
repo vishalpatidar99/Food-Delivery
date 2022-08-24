@@ -7,13 +7,25 @@ from restaurant.models import*
 from .forms import*
 from.models import *
 from swiggy.models import*
+from django.contrib import messages
 # Create your views here.
 
 class UserHome(generic.View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            items = Restaurant.objects.filter(verify=True)
-            return render(request, 'userhome.html', {'items':items})
+            filter_by = request.GET.get('filter_by')
+            if filter_by:
+                if filter_by=='veg' or filter_by=='non':
+                    filtered_items = Dish.objects.filter(menu_type = filter_by)
+                else:
+                    filtered_items = Dish.objects.filter(dish_type = filter_by)
+
+                final_res =[i.restaurant for i in filtered_items]
+                final_res = set(final_res)
+                return render(request,'userhome.html',{'final_res':final_res})
+            else:
+                items = Restaurant.objects.filter(verify=True).order_by('-total_rating')
+                return render(request, 'userhome.html', {'items':items})
         else:
             return redirect('login')
     
@@ -32,7 +44,7 @@ class UserHome(generic.View):
 class EditProfile(generic.View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            user = User.objects.get()
+            user = User.objects.get(id=request.user.id)
             return render(request, 'editprofile.html',{'user':user})
         else:
             return redirect('login')
@@ -74,14 +86,23 @@ class EditProfile(generic.View):
 class RestaurantMenu(generic.View):
     def get(self, request,  *args, **kwargs):
         if request.user.is_authenticated:
-            pk = kwargs['pk']
-            res = Dish.objects.filter(restaurant__id=pk)
-            return render(request,'restaurantmenu.html',{'res':res,'restau':res[0]})
+            price_filter = request.GET.get('price_filter')
+            pk = request.GET.get('pk')
+            if price_filter:
+                if price_filter=='low':
+                    res = Dish.objects.filter(restaurant__id=pk).order_by('price__price_of_dish')
+                    # import pdb;pdb.set_trace()
+                else:
+                    res = Dish.objects.filter(restaurant__id=pk).order_by('-price__price_of_dish')
+            else:
+                res = Dish.objects.filter(restaurant__id=pk)
+                
+            return render(request,'restaurantmenu.html',{'res':res,'pk':pk})
         else:
             return redirect('login')
 
     def post(self, request,  *args, **kwargs):
-        pk = kwargs['pk']
+        pk = request.GET.get('pk')
         res = Dish.objects.filter(restaurant__id=pk)
         dish_id = request.POST['dish']
         dish=Dish.objects.get(id=dish_id)
@@ -172,12 +193,18 @@ class AddAddress(generic.View):
             print(request.POST)
             form.instance.user = request.user
             form.save()
+            messages.success(request, 'Address Saved Successfully')
             if q:
                 return redirect(reverse('user:cart'))
             else:
-                return redirect(reverse('user:userhome'))
+                return redirect(reverse('user:address'))
         else:
+            messages.error(request, 'form is invalid')
             return render(request,'address.html')
+
+class RatingView(generic.View):
+    def get(self, request, *args, **kwargs):
+        return render(request,'rating.html')
     
 # class PlaceOrder(generic.View):
 #     def get(self, request, *args, **kwargs):
