@@ -61,6 +61,17 @@
         justify-content: center;
         align-items: center;
     }
+    #logo{
+        height: 80px;
+        width: 80px;
+        /* padding-bottom: 15px; */
+    }
+    .cart-items{
+        margin-left: 25px;
+    }
+    #cart-item-photo{
+        margin-right: 5px;
+    }
 </style>
 <!-- {% if searched_items %}
 
@@ -93,6 +104,16 @@
                 <a href="/user/?filter_by=Fast" class="dropdown-item">Fast Food</a>
                 <a href="/user/?filter_by=main" class="dropdown-item">Main Course</a>
                 <a href="/user/?filter_by=Dessert" class="dropdown-item">Dessert</a>
+            </div>
+        </div>
+        <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle"
+                data-toggle="dropdown" style="color: black;"><img src="{% static 'img/cart.png' %}" alt="cart" height="25px" width="25px">{{user.first_name}}'s Cart</a>
+            <div class="dropdown-menu text-capitalize">
+                {% for item in cart_items %}
+                <li class="cart-items"><img id="cart-item-photo" src="{{item.dish.photo.url}}" height="25px" width="25px">{{item}}</li>
+                <hr style="margin: 1px; padding: 0px;"/>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -131,9 +152,9 @@
 
 {% block navbar_1 %}
 <div class="container-fluid p-0 nav-bar" style="background-color: rgba(51, 33, 29, .8); height: 100px;">
-    <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
+    <nav class="navbar navbar-expand-lg bg-none navbar-dark">
         <a href="{% url 'user:userhome' %}" class="navbar-brand px-lg-4 m-0">
-            <h6 class="m-0 display-4 text-uppercase text-white">THE FOOD BAG</h6>
+            <h6 class="m-0 display-4 text-uppercase text-white"><img id="logo" src="{% static 'img/the food bag.png' %}" alt="THE FOOD BAG" height="80px" width="80px"></h6>
         </a>
         <button type="button" class="navbar-toggler" data-toggle="collapse"
             data-target="#navbarCollapse">

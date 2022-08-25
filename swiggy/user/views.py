@@ -1,4 +1,3 @@
-from http.client import HTTPResponse
 from django.shortcuts import redirect, render
 from django.views import generic
 from django.urls import reverse
@@ -22,10 +21,13 @@ class UserHome(generic.View):
 
                 final_res =[i.restaurant for i in filtered_items]
                 final_res = set(final_res)
-                return render(request,'userhome.html',{'final_res':final_res})
-            else:
                 items = Restaurant.objects.filter(verify=True).order_by('-total_rating')
-                return render(request, 'userhome.html', {'items':items})
+
+                return render(request,'userhome.html',{'final_res':final_res,'cart_items':cart_items})
+            else:
+                cart_items = CartItems.objects.filter(user=request.user,paid=False)
+                items = Restaurant.objects.filter(verify=True).order_by('-total_rating')
+                return render(request, 'userhome.html', {'items':items,'cart_items':cart_items})
         else:
             return redirect('login')
     
@@ -38,14 +40,15 @@ class UserHome(generic.View):
         res = [i for i in searched_restaurants]
         final_res.extend(res)
         final_res = set(final_res)
-        items = Restaurant.objects.filter(verify=True)
-        return render(request, 'userhome.html', {'final_res':final_res,'items':items})
+        items = Restaurant.objects.filter(verify=True).oredr_by('-total_rating')
+        cart_items = CartItems.objects.filter(user=request.user,paid=False)
+        return render(request, 'userhome.html', {'final_res':final_res,'items':items,'cart_items':cart_items})
 
 class EditProfile(generic.View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            user = User.objects.get(id=request.user.id)
-            return render(request, 'editprofile.html',{'user':user})
+            # user = User.objects.get(id=request.user.id)
+            return render(request, 'editprofile.html')#,{'user':user})
         else:
             return redirect('login')
 
@@ -53,14 +56,7 @@ class EditProfile(generic.View):
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
         email = request.POST['email']
-        print(request.user)
-        print(request.user.username)
-        if first_name !='':
-            User.objects.filter(username=request.user.username).update(first_name=first_name)
-        if last_name!='':
-            User.objects.filter(username=request.user.username).update(last_name=last_name)
-        if email!='':
-            User.objects.filter(username=request.user.username).update(email=email)
+        User.objects.filter(username=request.user.username).update(first_name=first_name,last_name=last_name,email=email)
         return redirect(reverse('user:userhome'))
 
 # class RestaurantLogin(generic.View):
@@ -96,37 +92,51 @@ class RestaurantMenu(generic.View):
                     res = Dish.objects.filter(restaurant__id=pk).order_by('-price__price_of_dish')
             else:
                 res = Dish.objects.filter(restaurant__id=pk)
-                
-            return render(request,'restaurantmenu.html',{'res':res,'pk':pk})
+
+            cart_items = CartItems.objects.filter(user=request.user,paid=False)
+            return render(request,'restaurantmenu.html',{'res':res,'pk':pk,'cart_items':cart_items,'conf':cart_items[0]})
         else:
             return redirect('login')
 
     def post(self, request,  *args, **kwargs):
         pk = request.GET.get('pk')
+        confirmation = request.POST.get('confirmation')
         res = Dish.objects.filter(restaurant__id=pk)
         dish_id = request.POST['dish']
         dish=Dish.objects.get(id=dish_id)
         res_2 = []
         restau = CartItems.objects.filter(user=request.user).first()
-
-        if restau is not None:
-            if dish.restaurant.id == restau.dish.restaurant.id:
-                for i in CartItems.objects.filter(user=request.user).values_list('dish_id'):
-                    for j in i:
-                        res_2.append(j)
-                if int(dish_id) not in res_2 or restau.user.id != request.user.id:
-                    CartItems.objects.create(user=request.user,dish=dish,price=dish.price_set.all().first().price_of_dish)
-                else:
-                    return redirect(reverse('user:cart'))
-                return render(request,'restaurantmenu.html',{'res':res})
-            else:
-                CartItems.objects.all().delete()
-                CartItems.objects.create(user=request.user, dish=dish,price=dish.price_set.all().first().price_of_dish)
-                return render(request,'restaurantmenu.html',{'res':res})
+        
+        if confirmation == 'Yes':
+            CartItems.objects.all().delete()
+            CartItems.objects.create(user=request.user, dish=dish,price=dish.price_set.all().first().price_of_dish)
+            cart_items = CartItems.objects.filter(user=request.user,paid=False)
+            return render(request,'restaurantmenu.html',{'res':res,'cart_items':cart_items,'conf':cart_items[0]})
 
         else:
-            CartItems.objects.create(user=request.user,dish=dish,price=dish.price_set.all().first().price_of_dish)
-            return render(request,'restaurantmenu.html',{'res':res})
+            if restau is not None:
+                if dish.restaurant.id == restau.dish.restaurant.id:
+                    for i in CartItems.objects.filter(user=request.user).values_list('dish_id'):
+                        for j in i:
+                            res_2.append(j)
+                    if int(dish_id) not in res_2 or restau.user.id != request.user.id:
+                        CartItems.objects.create(user=request.user,dish=dish,price=dish.price_set.all().first().price_of_dish)
+                        messages.success(request,'Item added successfully')
+                    else:
+                        messages.success(request,'Item is already availabel in cart')
+                        # return redirect(reverse('user:cart'))
+
+                    cart_items = CartItems.objects.filter(user=request.user,paid=False)
+                    return render(request,'restaurantmenu.html',{'res':res,'cart_items':cart_items,'conf':cart_items[0]})
+                else:
+                    cart_items = CartItems.objects.filter(user=request.user,paid=False)
+                    return render(request,'restaurantmenu.html',{'res':res,'cart_items':cart_items,'conf':cart_items[0]})
+
+            else:
+                CartItems.objects.create(user=request.user,dish=dish,price=dish.price_set.all().first().price_of_dish)
+                messages.success(request,'Item added successfully')
+                cart_items = CartItems.objects.filter(user=request.user,paid=False)
+                return render(request,'restaurantmenu.html',{'res':res,'cart_items':cart_items,'conf':cart_items[0]})
 
         
 class Cart(generic.View):
@@ -161,11 +171,13 @@ class Cart(generic.View):
                 total_price += i.price
 
             if len(items)>0:
-                to_pay = total_price + 50
+                tax = total_price/10
+                to_pay = total_price + 25 + tax
             else:
                 to_pay = 0
+                tax = 0
 
-            return render(request, 'cart.html', {'res':items,'user_address':user_address,'total':total_price,'to_pay':to_pay})
+            return render(request, 'cart.html', {'res':items,'user_address':user_address,'total':total_price,'to_pay':to_pay,'tax':tax})
         else:
             return redirect('login')
         

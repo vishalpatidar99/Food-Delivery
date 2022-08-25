@@ -227,6 +227,14 @@
     #adr{
         text-decoration: none;
     }
+    .search-btn{
+        height: 35px;
+        border-radius: 7px;
+    }
+    #query{
+        height: 35px;
+        border-radius: 7px;
+    }
 </style>
 <script>
     // Get the modal
@@ -311,7 +319,7 @@
                     <br/>
                     {% if res %}
                     &#8377;25 <br/>
-                    &#8377;25 <br/>
+                    &#8377;{{tax}} <br/>
                     {% endif %}
                     <hr/>
                     &#8377;{{to_pay}}

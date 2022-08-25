@@ -1,5 +1,27 @@
 {% extends 'userhome.html' %}
+{% block menu_1 %}
+{% endblock menu_1 %}
 {% block reservation_1 %}
+<style>
+    body{
+        padding-top: 0%;
+        margin-top: 0%;
+    }
+    .mt-5, .my-5 {
+    margin-top: 0rem !important;
+    }
+    img{
+        border-radius: 7px;
+    }
+    .search-btn{
+        height: 35px;
+        border-radius: 7px;
+    }
+    #query{
+        height: 35px;
+        border-radius: 7px;
+    }
+</style>
 <center>
     {% if messages %}
     <ul class="messages">
@@ -9,7 +31,7 @@
     <ul>
     {% endif %}
 </center>
-<div class="container-fluid my-5">
+<div class="container-fluid my-5" style="padding-top: 10%; margin-top: 10%;">
     {% block reservation_2 %}
     <div class="container">
         <div class="reservation position-relative overlay-top overlay-bottom">
@@ -37,7 +59,7 @@
                 <div class="col-lg-6" style="height: 600px;">
                     <div class="text-center p-5" style="background: rgba(51, 33,
                         29, .8);">
-                        <h1 class="text-white mb-4 mt-5">Book Your Table</h1>
+                        <h1 class="text-white mb-4 mt-5">Add Address</h1>
                         <form class="mb-5" method="post">
                             {% csrf_token %}
                             <div class="form-group">
