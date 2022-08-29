@@ -3,9 +3,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>404 Page Not Found</title>
+    <style>
+        /* body{
+            background-image: url("../static/img/bg.png");
+        } */
+    </style>
 </head>
-<body>
-    This is 404 request
+<body background="../static/img/bg.png">
+    <div class="text">It's look like you Entered url manualy or you might looking for something else. for start again 
+        <a href="{% url 'home' %}"><button>Home</button></a>
+        </div>
 </body>
 </html>
