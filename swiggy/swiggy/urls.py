@@ -18,6 +18,7 @@ from django.urls import path,include
 from . import views
 from django.conf.urls.static import static
 from django.conf import settings
+from django.conf.urls import handler404
 
 app_name='swiggy'
 urlpatterns = [
@@ -31,3 +32,5 @@ urlpatterns = [
     path("logout/",views.Logout.as_view(),name='logout'),
     path('user/', include('user.urls', namespace='user')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = views.page_not_found_view

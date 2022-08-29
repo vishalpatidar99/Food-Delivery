@@ -111,6 +111,7 @@
                 <li class="cart-items"><img id="cart-item-photo" src="{{item.dish.photo.url}}" height="25px" width="25px">{{item}}</li>
                 <hr style="margin: 1px; padding: 0px;"/>
                 {% endfor %}
+                <a href="{% url 'user:cart' %}"><li class="cart-items"><img id="cart-item-photo" src="{% static 'img/cart.png' %}" height="25px" width="25px">Go to Cart</a>
             </div>
         </div>
     </div>
@@ -128,20 +129,50 @@
     <div class="details">
        <div class="restau"> <center>{{item.name.title}}</center>
         <center><p class="pricetag"><form action="" method="post">{% csrf_token %}<input type="hidden" name="dish" value="{{item.id}}">
-            {% if item.restaurant.id == conf.dish.restaurant.id %}<input type="submit" value="ADD &#8377;{{item.price_set.all.first.price_of_dish}}">{% else %}<input type="hidden" id="confirm" name="confirmation" value="ljkh,vc">
-            <input type="submit" onclick="Demo()" name="c" value="ADD &#8377;{{item.price_set.all.first.price_of_dish}}">{% endif %}</form></p></center>
+            {% if cart_items %}
+            {% if item.restaurant.id == cart_items.last.dish.restaurant.id %}
+            <input type="submit" value="ADD &#8377;{{item.price_set.all.first.price_of_dish}}">
+            {% else %}
+            <input type="text" value="" id="conf_{{item.id}}" name="confirmation" style="display: none;">
+            <input type="submit" onclick="getConfirmation()" id="addei" value="ADD &#8377;{{item.price_set.all.first.price_of_dish}}">
+            {% endif %}
+            {% else %}
+            <input type="submit" value="ADD &#8377;{{item.price_set.all.first.price_of_dish}}">
+            {% endif %}
+            </form></p></center>
         </div>
     </div>
 </div>
 {% endfor %}
 </div>
 <script>
-    function Demo(){
-        if(confirm("Your cart items from other restaurant. Would you like to reset your cart for adding items from this restaurant")=== true){
-            document.getElementById("confirm").value='Yes'
+    function getConfirmation(){
+        if(confirm("Your cart items are from another restaurant. Would you like to reset your cart for adding items from this restaurant.")==true){
+            {% for i in res %}
+            document.getElementById('conf_{{i.id}}').value = "Yes"
+            {% endfor %}
         }else{
-            document.getElementById("confirm").value='No'
+            {% for i in res %}
+            document.getElementById('conf_{{i.id}}').value = "No"
+            {% endfor %}
         }
     }
-</script>
+    
+    // function getConfirmation(event){
+
+    //     // event.preventDefault();
+    //     var Confirmdata = document.getElementsByClassName('confirm_2')
+    //     var ok = confirm("Your cart items from other restaurant. Would you like to reset your cart for adding items from this restaurant")
+    //     if(ok==true){
+    //         debugger
+    //         document.getElementById("addei").previousSibling.value = "Yes"
+    //         Confirmdata.setAttribute("value", "Yes")
+    //         // alert('yes')
+    //     }else{
+    //         // debugger
+    //         Confirmdata.setAttribute("value", "No")
+    //         // alert('no')
+    //     }
+    // }
+</script>   
 {% endblock menu_1 %}

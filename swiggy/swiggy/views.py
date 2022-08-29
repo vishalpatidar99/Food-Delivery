@@ -7,6 +7,9 @@ from .forms import*
 from django.urls import reverse
 from django.contrib import messages
 
+def page_not_found_view(request, exception):
+    return render(request, '404.html', status=404)
+    
 class Home(generic.View):
     def get(self, request, *args, **kwargs):
         
