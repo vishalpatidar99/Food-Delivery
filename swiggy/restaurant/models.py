@@ -15,6 +15,7 @@ class Restaurant(models.Model):
     photos = models.FileField(upload_to='restaurant/photo/', blank=True)
     total_rating = models.IntegerField(default=0)
     verify = models.BooleanField(default=False)
+    followers = models.ManyToManyField(User, related_name='follow', blank=True)
 
     def __str__(self):
         return self.restaurant_name

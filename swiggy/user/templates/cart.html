@@ -171,7 +171,7 @@
     }
     .main_2{
         width: 30%;
-        height: 760px;
+        height: auto;
     }
     .item-details{
         height: auto;
@@ -188,7 +188,7 @@
     }
     .address{
         width: 269.69px;
-        height: 60px;
+        height: auto;
         /* background-color: blueviolet; */
         display: flex;
         align-items: center;
@@ -234,6 +234,18 @@
     #query{
         height: 35px;
         border-radius: 7px;
+    }
+    .payment-method{
+        height: auto;
+        width: 100%;
+    }
+    .methods{
+        display: flex;
+        justify-content: space-between;
+    }
+    #payment-method{
+        padding-left: 65px;
+        padding-top: 10px;
     }
 </style>
 <script>
@@ -300,6 +312,7 @@
                 <div class="dish-name">{% for i in res %}
                     {{i.dish.name}} {% if i.quantity > 1 %}x {{i.quantity}}{% endif %}<br/>    
                     {% endfor %}
+                    <input type="text" name="items" value="{{res}}" style="display: none;">
                     <hr/>
                     Item Total <br/> 
                     <br/>
@@ -322,15 +335,52 @@
                     &#8377;{{tax}} <br/>
                     {% endif %}
                     <hr/>
-                    &#8377;{{to_pay}}
-                    
+                    &#8377;{{to_pay}}      
                 </div>
             </div>
+            </div>
+            <hr/>
+            <div class="payment-method">
+                <h3 id="payment-method">Chose Payment Method</h3>
+                <div class="payment">
+                    <div class="methods">
+                        <div class="method_1">
+                            <label for="upi">UPI</label>
+                        </div>
+                        <div class="method_2">
+                            <input type="radio" name="payment" id="upi" value="UPI" required/>&nbsp;&nbsp;
+                        </div>
+                    </div>
+                    <div class="methods">
+                        <div class="method_1">
+                            <label for="debit">Debit Card</label>
+                        </div>
+                        <div class="method_2">
+                            <input type="radio" name="payment" id="debit" value="debit" required/>&nbsp;&nbsp;
+                        </div>
+                    </div>
+                    <div class="methods">
+                        <div class="method_1">
+                            <label for="credit">Credit Card</label>
+                        </div>
+                        <div class="method_2">
+                            <input type="radio" name="payment" id="credit" value="credit" required/>&nbsp;&nbsp;
+                        </div>
+                    </div>
+                    <div class="methods">
+                        <div class="method_1">
+                            <label for="cod">Cash On Delivery</label>
+                        </div>
+                        <div class="method_2">
+                            <input type="radio" name="payment" id="cod" value="COD" required/>&nbsp;&nbsp;
+                        </div>
+                    </div>
+                </div>
             </div>
     </div>
     
     <div class="footer2">
-        <button type="submit" class="checkout">MAKE PAYMENT <div class="total">&#8377;{{to_pay}}</div></button>
+        <button type="submit" class="checkout" name="sub" value="{{to_pay}}">MAKE PAYMENT<div class="total">&#8377;{{to_pay}}</div></button>
     </div> 
 
     </form>  

@@ -33,7 +33,11 @@ class UserRegistration(generic.View):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username,password=password)
+            login(request, user)
+            return redirect(reverse('user:edit-profile'))
         else:
             form = UserCreationForm()
             return render(request, 'register.html',{'form':form})

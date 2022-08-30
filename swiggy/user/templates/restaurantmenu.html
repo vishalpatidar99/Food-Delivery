@@ -86,13 +86,61 @@
     }
     #cart-item-photo{
         margin-right: 5px;
+        
     } 
+    .follow{
+        display: flex;
+        justify-content: center;
+    }
+    .follow-btn{
+        background-color:#60b246;
+        height: 50px;
+        width: 135px;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .unfollow-btn{
+        background-color: rgb(202, 45, 45);
+        height: 50px;
+        width: 135px;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 </style>
 
 <div class="heading">
     <div class="heading_2">
-        {% block message %}
-        {% endblock message %}
+        <div class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle"
+            data-toggle="dropdown" style="color: black;">{{res.first.restaurant.restaurant_name}}</a>
+            <div class="dropdown-menu text-capitalize">
+                <div class="restaurant-image" style="display: flex; align-items:center; flex-direction: column;">
+                    <img id="cart-item-photo" src="{{res.first.restaurant.photos.url}}" height="125px" width="125px">{{item}}
+                </div> <br/>
+                <div class="follow">
+                    {% if follow == 'no' %}
+                    <a href="/user/restaurantmenu/?pk={{pk}}&follow=yes">
+                        <div class="follow-btn">
+                            FOLLOW
+                        </div></a>
+                    {% elif follow %}
+                    <a href="/user/restaurantmenu/?pk={{pk}}&follow=no">
+                        <div class="unfollow-btn">
+                            UN FOLLOW
+                        </div></a>
+                    {% else %}
+                    <a href="/user/restaurantmenu/?pk={{pk}}&follow=yes">
+                        <div class="follow-btn">
+                            FOLLOW
+                        </div></a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
     <div class="filter">
         <div class="nav-item dropdown">

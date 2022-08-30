@@ -14,7 +14,7 @@ class UserHome(generic.View):
         if request.user.is_authenticated:
             filter_by = request.GET.get('filter_by')
             cart_items = CartItems.objects.filter(user=request.user,paid=False)
-
+            
             if filter_by:
                 if filter_by=='veg' or filter_by=='non':
                     filtered_items = Dish.objects.filter(menu_type = filter_by)
@@ -85,6 +85,18 @@ class RestaurantMenu(generic.View):
         if request.user.is_authenticated:
             price_filter = request.GET.get('price_filter')
             pk = request.GET.get('pk')
+            follow = request.GET.get('follow')
+            # import pdb;pdb.set_trace()
+            if follow == 'yes':
+                restau = Restaurant.objects.get(id=pk).followers.add(request.user)
+                follow = Restaurant.objects.filter(id=pk,followers=request.user)
+            elif follow == 'no':
+                # import pdb;pdb.set_trace()
+                Restaurant.objects.get(id=pk).followers.remove(request.user)
+                follow = Restaurant.objects.filter(id=pk,followers=request.user)
+            else:
+                follow = 'no'
+
             if price_filter:
                 if price_filter=='low':
                     res = Dish.objects.filter(restaurant__id=pk).order_by('price__price_of_dish')
@@ -93,9 +105,9 @@ class RestaurantMenu(generic.View):
             else:
                 res = Dish.objects.filter(restaurant__id=pk)
 
+            follow = Restaurant.objects.filter(id=pk,followers=request.user)
             cart_items = CartItems.objects.filter(user=request.user,paid=False)
-            # import pdb;pdb.set_trace()
-            return render(request,'restaurantmenu.html',{'res':res,'pk':pk,'cart_items':cart_items})
+            return render(request,'restaurantmenu.html',{'res':res,'pk':pk,'cart_items':cart_items,'follow':follow})
         else:
             return redirect('login')
 
@@ -176,14 +188,17 @@ class Cart(generic.View):
         else:
             return redirect('login')
         
-    # def post(self, request, *args, **kwargs):
-    #     print(request.POST)
-    #     return render(request, 'cart.html')#, {'res':items,'user_address':user_address,'total':total_price,'to_pay':to_pay})
+    def post(self, request, *args, **kwargs):
+        address_id = request.POST['address']
+        payment_method = request.POST['payment']
+        total_amount = request.POST['sub']
+        address = Address.objects.get(user=request.user,id=address_id)
+        items = CartItems.objects.filter(user=request.user, paid=False)
+        order = OrderDetails.objects.create(user=request.user,restaurant=items[0].dish.restaurant, payment_method=payment_method,total_amount=total_amount,address=address)
+        for i in items:
+            order.dishesh.add(i.dish)
 
-    # def post(self, request, *args, **kwargs):
-
-    #     items = CartItems.objects.all()
-    #     return render(request, 'cart.html', {'res':items,'quantity':quantity})
+        return render(request, 'cart.html')
 
 class AddAddress(generic.View):
     def get(self, request, *args, **kwargs):
