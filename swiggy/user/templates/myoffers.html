@@ -1,0 +1,68 @@
+{% extends 'userhome.html' %}
+{% load static %}
+{% block menu_1 %}
+<style>
+    .heading{
+        padding-left: 5%;
+        width: 90%;
+        padding-top: 10%;
+        padding-bottom: 10px;  
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        justify-items: center;
+    }
+    .main{
+        height: 500px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .main2{
+        height: 100%;
+        width: 50%;
+        display: flex;
+        justify-content: center;
+    }
+    .offers{
+        height: 150px;
+        width: 80%;
+        background-color: #e6e6e2;
+        box-shadow: 4px 2px 5px #e4e1e1;
+        border-radius: 10px;
+        padding-bottom: 15px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .promocode{
+        height: 60px;
+        width: 150px;
+        background-color:#60b246;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        border-radius: 7px;
+    }
+</style>              
+<div class="heading">
+    <div class="heading_2">
+        <h1>Your Offers</h1>
+    </div>
+</div>
+<div class="main">
+    <div class="main2">
+        <div class="offers">
+            <div class="details">
+                For New User Flat 50% OFF
+            </div>
+            <div class="promocode">
+                NEW50
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock menu_1 %}

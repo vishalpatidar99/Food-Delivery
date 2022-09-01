@@ -3,15 +3,23 @@
 {% endblock menu_1 %}
 
 {% block reservation_1 %}
-<center>
+<style>
+    .message{
+        height: auto;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+</style>
+
 {% if messages %}
-<ul class="messages">
+<div class="message" id="message">
 {% for message in messages %}
-<li {% if message.tags %} class="{{ messages.tags }}"{% endif %} style="list-style: none;">{{message}}</li>
+{{message}}
 {% endfor %}
-<ul>
+</div>
 {% endif %}
-</center>
+
     <div class="container-fluid my-5">
         <div class="container">
             <div class="reservation position-relative overlay-top overlay-bottom">

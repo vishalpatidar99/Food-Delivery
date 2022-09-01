@@ -48,8 +48,7 @@ class UserHome(generic.View):
 class EditProfile(generic.View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            # user = User.objects.get(id=request.user.id)
-            return render(request, 'editprofile.html')#,{'user':user})
+            return render(request, 'editprofile.html')
         else:
             return redirect('login')
 
@@ -58,27 +57,8 @@ class EditProfile(generic.View):
         last_name = request.POST['last_name']
         email = request.POST['email']
         User.objects.filter(username=request.user.username).update(first_name=first_name,last_name=last_name,email=email)
+        messages.success(request, "Profile updated successfully")
         return redirect(reverse('user:userhome'))
-
-# class RestaurantLogin(generic.View):
-#     def get(self, request, *args, **kwargs):
-#         if request.user.is_authenticated:
-#             form = RestaurantLoginForm()
-#             return render(request, 'restaurantlogin.html',{'form':form})
-#         else:
-#             return redirect('login')
-
-#     def post(self, request, *args, **kwargs):
-#         email = request.POST['email']
-#         password = request.POST['password']
-#         user = Restaurant.objects.filter(email=email,password=password)
-#         print(user)
-#         if user is not None:
-#             print(user)
-#             # login(request,user)
-#             return redirect(reverse('user:restaurant-register'))
-#         else:
-#             return redirect(reverse('user:restaurant-login'))
 
 class RestaurantMenu(generic.View):
     def get(self, request,  *args, **kwargs):
@@ -86,16 +66,14 @@ class RestaurantMenu(generic.View):
             price_filter = request.GET.get('price_filter')
             pk = request.GET.get('pk')
             follow = request.GET.get('follow')
-            # import pdb;pdb.set_trace()
             if follow == 'yes':
-                restau = Restaurant.objects.get(id=pk).followers.add(request.user)
+                Restaurant.objects.get(id=pk).followers.add(request.user)
                 follow = Restaurant.objects.filter(id=pk,followers=request.user)
             elif follow == 'no':
-                # import pdb;pdb.set_trace()
                 Restaurant.objects.get(id=pk).followers.remove(request.user)
                 follow = Restaurant.objects.filter(id=pk,followers=request.user)
             else:
-                follow = 'no'
+                follow = 'nothing'
 
             if price_filter:
                 if price_filter=='low':
@@ -128,7 +106,7 @@ class RestaurantMenu(generic.View):
 
         if cart_items.first() is not None:
             if dish.restaurant.id == cart_items.first().dish.restaurant.id:
-                for i in CartItems.objects.filter(user=request.user).values_list('dish_id'):
+                for i in CartItems.objects.filter(user=request.user, paid=False).values_list('dish_id'):
                     for j in i:
                         res_2.append(j)
                 if int(dish_id) not in res_2 or cart_items.first().user.id != request.user.id:
@@ -183,7 +161,7 @@ class Cart(generic.View):
             else:
                 to_pay = 0
                 tax = 0
-
+            
             return render(request, 'cart.html', {'res':items,'user_address':user_address,'total':total_price,'to_pay':to_pay,'tax':tax})
         else:
             return redirect('login')
@@ -192,13 +170,44 @@ class Cart(generic.View):
         address_id = request.POST['address']
         payment_method = request.POST['payment']
         total_amount = request.POST['sub']
-        address = Address.objects.get(user=request.user,id=address_id)
-        items = CartItems.objects.filter(user=request.user, paid=False)
-        order = OrderDetails.objects.create(user=request.user,restaurant=items[0].dish.restaurant, payment_method=payment_method,total_amount=total_amount,address=address)
-        for i in items:
-            order.dishesh.add(i.dish)
+        confirmation = request.POST['conf']
+        if confirmation == 'Yes':
+            address = Address.objects.get(user=request.user,id=address_id)
+            items = CartItems.objects.filter(user=request.user, paid=False)
+            
+            for i in items:
+                OrderDetails.objects.create(user=request.user,dish=i.dish,restaurant=i.dish.restaurant, payment_method=payment_method,address=address.address,quantity=i.quantity,price=i.price)
+            
+            order = Order.objects.create(user=request.user,restaurant=items[0].dish.restaurant,bill_to_pay=total_amount)
+            items.delete()
+            orders = OrderDetails.objects.filter(user=request.user, paid_status=False)
+            total_price = 0
+            for o in orders:
+                total_price += o.price
+                order.orders.add(o)
+            orders.update(paid_status=True)
+            tax_and_charges = total_price/10
+            order.tax_and_charges = tax_and_charges
+            order.total_amount = total_price
+            order.save()
+            messages.success(request, "Your Order palced successfully")
+            return redirect(reverse('user:userhome'))
 
-        return render(request, 'cart.html')
+        else:
+            user_address = Address.objects.filter(user=request.user)
+            items = CartItems.objects.filter(user=request.user,paid=False)
+            total_price = 0
+            for i in items:
+                total_price += i.price
+
+            if len(items)>0:
+                tax = total_price/10
+                to_pay = total_price + 25 + tax
+            else:
+                to_pay = 0
+                tax = 0
+
+            return render(request, 'cart.html', {'res':items,'user_address':user_address,'total':total_price,'to_pay':to_pay,'tax':tax})
 
 class AddAddress(generic.View):
     def get(self, request, *args, **kwargs):
@@ -219,6 +228,7 @@ class AddAddress(generic.View):
             if q:
                 return redirect(reverse('user:cart'))
             else:
+                messages.success(request, "Address added successfully")
                 return redirect(reverse('user:address'))
         else:
             messages.error(request, 'form is invalid')
@@ -228,25 +238,11 @@ class RatingView(generic.View):
     def get(self, request, *args, **kwargs):
         return render(request,'rating.html')
     
-# class PlaceOrder(generic.View):
-#     def get(self, request, *args, **kwargs):
-#         items = CartItems.objects.filter(user=request.user,paid=False)
-#         total_price = 0
+class OrderDetailsView(generic.View):
+    def get(self, request, *args, **kwargs):
+        orders = Order.objects.filter(user=request.user)
+        return render(request, 'orderdetails.html',{'orders':orders})
 
-#         for i in items:
-#             total_price += i.price
-
-#         to_pay = total_price + 50
-#         user_address = Address.objects.filter(user=request.user)
-#         return render(request, 'placeorder.html',{'res':items,'total':total_price,'user_address':user_address,'to_pay':to_pay})
-    
-#     def post(self,request,*args,**kwargs):
-#         print(request.POST)
-#         items = CartItems.objects.filter(user=request.user,paid=False)
-#         total_price = 0
-#         for i in items:
-#             total_price += i.price
-
-#         to_pay = total_price + 50
-#         user_address = Address.objects.filter(user=request.user)
-#         return render(request, 'placeorder.html',{'res':items,'total':total_price,'user_address':user_address,'to_pay':to_pay})
+class MyOffersView(generic.View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'myoffers.html')

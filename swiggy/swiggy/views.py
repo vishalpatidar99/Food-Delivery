@@ -18,12 +18,6 @@ class Home(generic.View):
 class About(generic.TemplateView):
     template_name = 'about.html'
     
-class Service(generic.TemplateView):
-    template_name = 'service.html'
-    
-class Offer(generic.TemplateView):
-    template_name = 'offer.html'
-    
 class UserRegistration(generic.View):
     def get(self, request, *args, **kwargs):
         form = UserCreationForm()
@@ -39,6 +33,7 @@ class UserRegistration(generic.View):
             login(request, user)
             return redirect(reverse('user:edit-profile'))
         else:
+            messages.error(request, "Invalid username or details")
             form = UserCreationForm()
             return render(request, 'register.html',{'form':form})
 

@@ -72,22 +72,13 @@
     #cart-item-photo{
         margin-right: 5px;
     }
-</style>
-<!-- {% if searched_items %}
-
-<div class="dishesh">
-    {% for item in searched_items %}
-<a href="{% url 'user:restaurantmenu' item.restaurant.id %}">
-<div class="dish-items">
-    <center><div class="image"><img src="{{item.photo.url}}" height="150px" width="150px" alt="{{item.restaurant.restaurant_name}}"></div></center>
-    <div class="details">
-        <center><div class="restau">{{item.restaurant.restaurant_name}}</div></center>
-    </div>
-</div></a>
-{% endfor %}
-</div>
-
-{% endif %} -->                
+    .message{
+        height: auto;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+</style>                
 <div class="heading">
     <div class="heading_2">
         <h1>Our Restaurants</h1>
@@ -106,19 +97,17 @@
                 <a href="/user/?filter_by=Dessert" class="dropdown-item">Dessert</a>
             </div>
         </div>
-        <div class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle"
-                data-toggle="dropdown" style="color: black;"><img src="{% static 'img/cart.png' %}" alt="cart" height="25px" width="25px">{{user.first_name}}'s Cart</a>
-            <div class="dropdown-menu text-capitalize">
-                {% for item in cart_items %}
-                <li class="cart-items"><img id="cart-item-photo" src="{{item.dish.photo.url}}" height="25px" width="25px">{{item}}</li>
-                <hr style="margin: 1px; padding: 0px;"/>
-                {% endfor %}
-                <a href="{% url 'user:cart' %}"><li class="cart-items"><img id="cart-item-photo" src="{% static 'img/cart.png' %}" height="25px" width="25px">Go to Cart</a>
-            </div>
-        </div>
+        <a href="{% url 'user:cart' %}">{{cart_items.count}}<img src="{% static 'img/cart.png' %}" height="25px" width="25px" alt=""></a>
     </div>
 </div>
+{% if messages %}
+<div class="message" id="message">
+{% for message in messages %}
+{{message}}
+{% endfor %}
+</div>
+{% endif %}
+
 {% if final_res %}
 
 <div class="dishesh" style="padding-top: 10px;">
@@ -173,28 +162,6 @@
                   </form>
                 <a href="{% url 'user:userhome' %}" class="nav-item nav-link
                     active">Home</a>
-                <!-- <a href="{% url 'about' %}" class="nav-item nav-link">About</a> -->
-                <!-- <a href="{% url 'service' %}" class="nav-item nav-link">Service</a> -->
-                <!-- <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle"
-                        data-toggle="dropdown">Restaurants</a>
-                    <div class="dropdown-menu text-capitalize">
-                        {% for r in items %}
-                        <a href="{% url 'user:restaurant:home' %}"
-                            class="dropdown-item">{{r}}</a>
-                        {% endfor %}
-                    </div>
-                </div> -->
-                <!-- <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle"
-                        data-toggle="dropdown">Swiggy Business</a>
-                    <div class="dropdown-menu text-capitalize">
-                        <a href="/user/restaurant/" class="dropdown-item">Register
-                            Restaurant</a>
-                        <a href="/user/deliveryperson/" class="dropdown-item">Delivery
-                            Person</a>
-                    </div>
-                </div> -->
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle"
                         data-toggle="dropdown">{{user.first_name}}</a>
@@ -202,9 +169,9 @@
                         <a href="{% url 'user:edit-profile' %}"
                             class="dropdown-item">Edit Profile</a>
                         <a href="{% url 'user:cart' %}" class="dropdown-item"><img src="{% static 'img/cart.png' %}" alt="cart" height="25px" width="25px"> Cart</a>
-                        <a href="" class="dropdown-item">My
+                        <a href="{% url 'user:orderdetails' %}" class="dropdown-item">My
                             Orders</a>
-                        <a href="" class="dropdown-item">My
+                        <a href="{% url 'user:myoffers' %}" class="dropdown-item">My
                             offers</a>
                         <a href="{% url 'user:address' %}" class="dropdown-item">Add
                             Address</a>
@@ -212,11 +179,10 @@
 
                     </div>
                 </div>
-                <!-- <a href="contact.html" class="nav-item nav-link">Contact</a> -->
+                <div class="nav-item nav-link"></div>
             </div>
         </div>
     </nav>
-    <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{user}} -->
 </div>
 
 {% endblock navbar_1 %}

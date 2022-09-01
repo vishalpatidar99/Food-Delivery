@@ -1,3 +1,5 @@
+from email.policy import default
+from urllib import request
 from django.db import models
 from django.contrib.auth.models import User
 from restaurant.models import*
@@ -14,19 +16,25 @@ class CartItems(models.Model):
     def __str__(self):
         return self.dish.name
 
-class OrderDetails(models.Model):
-    class PAYMENT_METHOD_CHOICES(models.TextChoices):
-        UPI = 'upi', _('UPI')
-        DEBIT = 'deb', _('Debit Card')
-        CREDIT = 'ced', _('Credit Card')
-        COD = 'cod', _('Cash on Delivery')
-        
+class OrderDetails(models.Model):  
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-    dishesh = models.ManyToManyField(Dish)
+    dish = models.ForeignKey(Dish, on_delete=models.CASCADE, blank=True)
+    quantity = models.IntegerField(default=1)
+    price = models.IntegerField(default=0)
     date_time = models.DateTimeField(auto_now=True)
-    payment_method = models.CharField(max_length=3,choices=PAYMENT_METHOD_CHOICES.choices)
-    total_amount = models.FloatField()
+    payment_method = models.CharField(max_length=10)
+    total_amount = models.FloatField(default=0)
     address = models.CharField(max_length=150,blank=True, null=True)
     delivery_person = models.ForeignKey(DeliveryPerson, on_delete=models.CASCADE, blank=True, null=True)
+    paid_status = models.BooleanField(default=False)
 
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    orders = models.ManyToManyField(OrderDetails)
+    tax_and_charges = models.FloatField(default=0)
+    delivery_charges = models.IntegerField(default=25)
+    date_time = models.DateTimeField(auto_now=True)
+    total_amount = models.FloatField(default=0)
+    bill_to_pay = models.FloatField(default=0)

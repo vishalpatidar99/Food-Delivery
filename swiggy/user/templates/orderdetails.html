@@ -134,22 +134,7 @@
         height: auto;
         width: 50%;
     }
-</style>
-<!-- {% if searched_items %}
-
-<div class="dishesh">
-    {% for item in searched_items %}
-<a href="{% url 'user:restaurantmenu' item.restaurant.id %}">
-<div class="dish-items">
-    <center><div class="image"><img src="{{item.photo.url}}" height="150px" width="150px" alt="{{item.restaurant.restaurant_name}}"></div></center>
-    <div class="details">
-        <center><div class="restau">{{item.restaurant.restaurant_name}}</div></center>
-    </div>
-</div></a>
-{% endfor %}
-</div>
-
-{% endif %} -->                
+</style>              
 <div class="heading">
     <div class="heading_2">
         <h1>Your Orders</h1>
@@ -167,22 +152,28 @@
                     </div>
                     <div class="info2">
                         {{order.restaurant.restaurant_name}} <br/>
-                        {{order.address}} <br/>
+                        {{order.orders.first.address}} <br/>
                     </div>
                 </div>
                 <div class="order_info2">
                     <div class="info1">
-                        {% for i in order.dishesh.all %}
-                        {{i.dish.name}} x {{i.quantity}}<br/>
-                        {% endfor %} 
-                        Total Bill <br/>
+                        {% for i in order.orders.all %}
+                        {{i.dish}} x {{i.quantity}}<br/>
+                        {% endfor %}
+                        Total <br/>
+                        Tax and Cahrges <br/>
+                        Delivery Charge <br/>
+                        To Pay <br/>
                         order date <br/>
                     </div>
                     <div class="info2">
-                        {% for i in order.dishesh.all %}
+                        {% for i in order.orders.all %}
                         {{i.price}}<br/>
-                        {% endfor %} 
+                        {% endfor %}
                         {{order.total_amount}} <br/>
+                        {{order.tax_and_charges}} <br/>
+                        {{order.delivery_charges}} <br/>
+                        {{order.bill_to_pay}} <br/>
                         {{order.date_time}} <br/>
                     </div>
                 </div>

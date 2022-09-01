@@ -151,7 +151,7 @@
     .trash{
         margin-left: 20px;
         display: flex;
-        justify-content: end;
+        justify-content: flex-start;
         align-items: flex-end;
         height: 25%;
     }
@@ -180,8 +180,9 @@
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
-        flex-direction: row;
+        flex-direction: column;
         align-content: flex-start;
+        align-items: center;
         box-shadow: 0px 0px 5px #e4e1e1;
         background-color: #e6e6e2;
         border-radius: 10px;
@@ -312,7 +313,6 @@
                 <div class="dish-name">{% for i in res %}
                     {{i.dish.name}} {% if i.quantity > 1 %}x {{i.quantity}}{% endif %}<br/>    
                     {% endfor %}
-                    <input type="text" name="items" value="{{res}}" style="display: none;">
                     <hr/>
                     Item Total <br/> 
                     <br/>
@@ -378,9 +378,13 @@
                 </div>
             </div>
     </div>
-    
     <div class="footer2">
-        <button type="submit" class="checkout" name="sub" value="{{to_pay}}">MAKE PAYMENT<div class="total">&#8377;{{to_pay}}</div></button>
+        <input type="text" name="conf" id="placeorder" value="" style="display: none;">
+        {% if res %}
+        <button type="submit" class="checkout" onclick="getConfirmation()" name="sub" value="{{to_pay}}">MAKE PAYMENT<div class="total">&#8377;{{to_pay}}</div></button>
+        {% else %}
+        <button type="button" class="checkout" onclick="getAlert()">MAKE PAYMENT<div class="total">&#8377;{{to_pay}}</div></button>
+        {% endif %}
     </div> 
 
     </form>  
@@ -428,4 +432,18 @@
     </div>
   </div>
 </div>
+<script>
+
+    function getConfirmation(){
+        if(confirm("Do you want to place your order")==true){
+            document.getElementById('placeorder').value='Yes'
+        }else{
+            document.getElementById('placeorder').value='No'
+        }
+    }
+
+    function getAlert(){
+        alert("there is no items in cart you can't place order")
+    }
+</script>
 {% endblock menu_1 %}

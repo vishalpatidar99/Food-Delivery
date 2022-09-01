@@ -4,6 +4,22 @@
 {% endblock menu_1 %}
 
 {% block reservation_1 %}
+<style>
+    .message{
+        height: auto;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+</style>
+
+{% if messages %}
+<div class="message" id="message">
+{% for message in messages %}
+{{message}}
+{% endfor %}
+</div>
+{% endif %}
 
     <div class="container-fluid my-5">
         <div class="container">

@@ -39,28 +39,6 @@
                   </form>
                 <a href="{% url 'user:userhome' %}" class="nav-item nav-link
                     active">Home</a>
-                <!-- <a href="{% url 'about' %}" class="nav-item nav-link">About</a> -->
-                <!-- <a href="{% url 'service' %}" class="nav-item nav-link">Service</a> -->
-                <!-- <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle"
-                        data-toggle="dropdown">Restaurants</a>
-                    <div class="dropdown-menu text-capitalize">
-                        {% for r in items %}
-                        <a href="{% url 'user:restaurant:home' %}"
-                            class="dropdown-item">{{r}}</a>
-                        {% endfor %}
-                    </div>
-                </div> -->
-                <!-- <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle"
-                        data-toggle="dropdown">Swiggy Business</a>
-                    <div class="dropdown-menu text-capitalize">
-                        <a href="/user/restaurant/" class="dropdown-item">Register
-                            Restaurant</a>
-                        <a href="/user/deliveryperson/" class="dropdown-item">Delivery
-                            Person</a>
-                    </div>
-                </div> -->
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle"
                         data-toggle="dropdown">{{user.first_name}}</a>
@@ -75,14 +53,12 @@
                         <a href="{% url 'user:address' %}" class="dropdown-item">Add
                             Address</a>
                         <a href="{% url 'logout' %}" class="dropdown-item">Log out</a>
-
                     </div>
                 </div>
-                <!-- <a href="contact.html" class="nav-item nav-link">Contact</a> -->
+                <div class="nav-item nav-link"></div>
             </div>
         </div>
     </nav>
-    <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{user}} -->
 </div>
 
 {% endblock navbar_1 %}
@@ -131,10 +107,6 @@
                                 <div>
                                     <button class="btn btn-primary btn-block font-weight-bold py-3" type="submit">Save</button>
                                 </div>
-                                <!-- <br/>
-                                <p>---------------------------------OR--------------------------------</p>
-                                <center><p>Already Have an Account</p></center>
-                                <a href="{% url 'login' %}"><button class="btn btn-primary btn-block font-weight-bold py-3" type="button">Sign In</button></a> -->
                             </form>
                         </div>
                     </div>

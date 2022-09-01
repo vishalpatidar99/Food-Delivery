@@ -12,5 +12,6 @@ urlpatterns=[
     path('restaurantmenu/', views.RestaurantMenu.as_view(),name='restaurantmenu'),
     path('cart/', views.Cart.as_view(),name='cart'),
     path('address/', views.AddAddress.as_view(),name='address'),
-    # path('placeorder/', views.PlaceOrder.as_view(),name='placeorder'),
+    path('orderdetails/', views.OrderDetailsView.as_view(),name='orderdetails'),
+    path('myoffers/', views.MyOffersView.as_view(),name='myoffers'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
