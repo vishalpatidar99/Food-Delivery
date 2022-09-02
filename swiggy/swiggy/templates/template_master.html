@@ -33,10 +33,8 @@
 <body>
 
     <!-- Navbar Start -->
-{% block navbar_1 %}
+{% block navbar %}
     <div class="container-fluid p-0 nav-bar">
-
-    {% block navbar_2 %}
         <nav class="navbar navbar-expand-lg bg-none navbar-dark py-3">
             <a href="{% url 'home' %}" class="navbar-brand px-lg-4 m-0">
                 <h1 class="m-0 display-4 text-uppercase text-white"><img src="{% static 'img/the food bag.png' %}" alt="THE FOOD BAG"></h1>
@@ -68,19 +66,14 @@
                 </div>
             </div>
         </nav>
-{% endblock navbar_2 %}
-
     </div>
-
-{% endblock navbar_1 %}
+{% endblock navbar %}
     <!-- Navbar End -->
 
 
     <!-- Carousel Start -->
-{% block carousel_1 %}
+{% block carousel %}
     <div class="container-fluid p-0 mb-5">
-
-{% block carousel_2 %}
         <div id="blog-carousel" class="carousel slide overlay-bottom" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -107,18 +100,14 @@
                 <span class="carousel-control-next-icon"></span>
             </a>
         </div>
-{% endblock carousel_2 %}
-
     </div>
-{% endblock carousel_1 %}
+{% endblock carousel %}
     <!-- Carousel End -->
 
 
     <!-- About Start -->
-{% block about_1 %}
-
+{% block about %}
     <div class="container-fluid py-5">
-{% block about_2 %}
         <div class="container">
             <div class="section-title">
                 <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">About Us</h4>
@@ -146,18 +135,14 @@
                 </div>
             </div>
         </div>
-{% endblock about_2 %}
     </div>
-
-{% endblock about_1 %}
+{% endblock about %}
     <!-- About End -->
 
 
     <!-- Service Start -->
-{% block service_1 %}
-
+{% block service %}
     <div class="container-fluid pt-5">
-{% block service_2 %}
         <div class="container">
             <div class="section-title">
                 <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">Our Services</h4>
@@ -214,18 +199,14 @@
                 </div>
             </div>
         </div>
-{% endblock service_2 %}
     </div>
-
-{% endblock service_1 %}
+{% endblock service %}
     <!-- Service End -->
 
 
     <!-- Offer Start -->
-{% block offer_1 %}
-
+{% block offer %}
     <div class="offer container-fluid my-5 py-5 text-center position-relative overlay-top overlay-bottom">
-{% block offer_2 %}
         <div class="container py-5">
             <h1 class="display-3 text-primary mt-3">50% OFF</h1>
             <h1 class="text-white mb-3">Sunday Special Offer</h1>
@@ -239,28 +220,14 @@
                 </div>
             </form>
         </div>
-{% endblock offer_2 %}
     </div>
-
-{% endblock offer_1 %}
+{% endblock offer %}
     <!-- Offer End -->
 
 
     <!-- Menu Start -->
-{% block menu_1 %}
-
+{% block menu %}
     <div class="container-fluid pt-5">
-{% block menu_2 %}
-{% block message %}
-    {% if messages %}
-    <ul class="messages">
-    {% for message in messages %}
-    <li {% if message.tags %} class="{{ messages.tags }}"{% endif %}>{{message}}</li>
-    {% endfor %}
-    <ul>
-    {% endif %}
-{% endblock message %}
-
         <div class="container">
             <div class="section-title">
                 <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">Menu & Pricing</h4>
@@ -335,18 +302,14 @@
                 </div>
             </div>
         </div>
-{% endblock menu_2 %}
     </div>
-
-{% endblock menu_1 %}
+{% endblock menu %}
     <!-- Menu End -->
 
 
     <!-- Reservation Start -->
-{% block reservation_1 %}
-
+{% block reservation %}
     <div class="container-fluid">
-{% block reservation_2 %}
         <div class="container">
             <div class="reservation position-relative overlay-top overlay-bottom">
                 <div class="row align-items-center">
@@ -406,18 +369,14 @@
                 </div>
             </div>
         </div>
-{% endblock reservation_2 %}
     </div>
-
-{% endblock reservation_1 %}
+{% endblock reservation %}
     <!-- Reservation End -->
 
 
     <!-- Testimonial Start -->
-{% block testimonial_1 %}
-
+{% block testimonial %}
     <div class="container-fluid py-5">
-{% block testimonial_2 %}
         <div class="container">
             <div class="section-title">
                 <h4 class="text-primary text-uppercase" style="letter-spacing: 5px;">Testimonial</h4>
@@ -466,18 +425,14 @@
                 </div>
             </div>
         </div>
-{% endblock testimonial_2 %}
     </div>
-
-{% endblock testimonial_1 %}
+{% endblock testimonial %}
     <!-- Testimonial End -->
 
 
     <!-- Footer Start -->
-{% block footer_1 %}
-
+{% block footer %}
     <div class="container-fluid footer text-white mt-5 pt-5 px-0 position-relative overlay-top">
-{% block footer_2 %}
         <div class="row mx-0 pt-5 px-sm-3 px-lg-5 mt-4">
             <div class="col-lg-3 col-md-6 mb-5">
                 <h4 class="text-white text-uppercase mb-4" style="letter-spacing: 3px;">Get In Touch</h4>
@@ -520,10 +475,8 @@
         <div class="container-fluid text-center text-white border-top mt-4 py-4 px-sm-3 px-md-5" style="border-color: rgba(256, 256, 256, .1) !important;">
             <p class="mb-2 text-white">Copyright &copy; <a class="font-weight-bold" href="#">The Food Bag</a>. All Rights Reserved.</a></p>
         </div>
-{% endblock footer_2 %}
     </div>
-
-{% endblock footer_1 %}
+{% endblock footer %}
     <!-- Footer End -->
 
 

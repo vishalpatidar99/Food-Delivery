@@ -19,7 +19,7 @@
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 {% endblock css %}
-{% block menu_1 %}
+{% block menu %}
 <style>
     .dishesh{
         display: flex;
@@ -248,6 +248,21 @@
         padding-left: 65px;
         padding-top: 10px;
     }
+    .select-offer{
+        height: 50px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .coupon{
+        height: 100%;
+        width: 50%;
+        /* background-color: blueviolet; */
+    }
+    #promo{
+        text-align: center;
+        width: 150px;
+    }
 </style>
 <script>
     // Get the modal
@@ -340,6 +355,11 @@
             </div>
             </div>
             <hr/>
+            <div class="select-offer">
+                <div class="coupon">
+                    <input type="text" id="promo" placeholder="PROMO-CODE"><input type="button" value="Apply">
+                </div>
+            </div>
             <div class="payment-method">
                 <h3 id="payment-method">Chose Payment Method</h3>
                 <div class="payment">
@@ -430,7 +450,7 @@
         <p>Modal Footer</p>
       </footer> -->
     </div>
-  </div>
+</div>
 </div>
 <script>
 
@@ -446,4 +466,4 @@
         alert("there is no items in cart you can't place order")
     }
 </script>
-{% endblock menu_1 %}
+{% endblock menu %}

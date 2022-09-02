@@ -38,3 +38,12 @@ class Order(models.Model):
     date_time = models.DateTimeField(auto_now=True)
     total_amount = models.FloatField(default=0)
     bill_to_pay = models.FloatField(default=0)
+
+class Offer(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, blank=True, null=True)
+    offer_in_percentage = models.CharField(max_length=2)
+    validity = models.DateTimeField(blank=True)
+    promocode = models.CharField(max_length=15)
+    description = models.CharField(max_length=100, blank=True)
+    terms_and_condition = models.TextField(blank=True)

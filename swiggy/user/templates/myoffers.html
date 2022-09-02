@@ -1,6 +1,25 @@
 {% extends 'userhome.html' %}
 {% load static %}
-{% block menu_1 %}
+{% block css %}
+<!-- Favicon -->
+    <link href="{% static 'img/logo.png' %}" rel="icon">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"> 
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+{% endblock css %}
+{% block menu %}
 <style>
     .heading{
         padding-left: 5%;
@@ -27,14 +46,15 @@
     .offers{
         height: 150px;
         width: 80%;
-        background-color: #e6e6e2;
-        box-shadow: 4px 2px 5px #e4e1e1;
+        /* background-color: #eee9e6; */
+        box-shadow: 5px 3px 20px #e4e1e1;
         border-radius: 10px;
         padding-bottom: 15px;
         display: flex;
-        flex-direction: row;
-        justify-content: space-around;
+        flex-direction: column;
+        justify-content: space-between;
         align-items: center;
+        border-top-left-radius: 1px solid black;
     }
     .promocode{
         height: 60px;
@@ -47,7 +67,47 @@
         font-weight: bold;
         border-radius: 7px;
     }
-</style>              
+    body{
+        background-color: whitesmoke;
+    }
+    img{
+        border-radius: 7px;
+    }
+    .validity{
+        display: flex;
+        height: 50%;
+        width: 100%;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+    .valid{
+        float: left;
+    }
+    .offer2{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 50%;
+        width: 100%;
+    }
+    .validity-main{
+        display: flex;
+        width: 50%;
+        height: auto;
+        flex-direction: column;
+    }
+    #term-btn{
+        /* background-color: black; */
+        height: 50px;
+        width: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* color: white; */
+        text-decoration: none;
+        border-radius: 3px;
+    }
+</style>             
 <div class="heading">
     <div class="heading_2">
         <h1>Your Offers</h1>
@@ -55,14 +115,49 @@
 </div>
 <div class="main">
     <div class="main2">
+        {% for offer in offers %}
         <div class="offers">
-            <div class="details">
-                For New User Flat 50% OFF
+            <div class="offer2">
+                <div class="description">
+                    {{offer.description}}
+                </div>
+                <div class="promocode">
+                    {{offer.promocode}}
+                </div>
             </div>
-            <div class="promocode">
-                NEW50
+            <div class="validity">
+                <div class="validity-main">
+                    <div class="valid">
+                        Valid Till
+                    </div>
+                    <div class="valid-date">
+                        {{offer.validity.date}}
+                    </div>
+                </div>
+                <div class="term">
+                    <div class="conditions">
+                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="background-color: rgb(212, 124, 124);">Terms and Conditions</button>
+                        <div id="myModal" class="modal fade" role="dialog">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                  <p>{{offer.terms_and_condition}}</p>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                </div>
             </div>
         </div>
+        {% endfor %}
     </div>
 </div>
-{% endblock menu_1 %}
+
+{% endblock menu %}

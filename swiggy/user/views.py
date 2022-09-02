@@ -190,8 +190,7 @@ class Cart(generic.View):
             order.tax_and_charges = tax_and_charges
             order.total_amount = total_price
             order.save()
-            messages.success(request, "Your Order palced successfully")
-            return redirect(reverse('user:userhome'))
+            return redirect(reverse('user:rating'))
 
         else:
             user_address = Address.objects.filter(user=request.user)
@@ -245,4 +244,5 @@ class OrderDetailsView(generic.View):
 
 class MyOffersView(generic.View):
     def get(self, request, *args, **kwargs):
-        return render(request, 'myoffers.html')
+        offers = Offer.objects.all()
+        return render(request, 'myoffers.html', {'offers':offers})

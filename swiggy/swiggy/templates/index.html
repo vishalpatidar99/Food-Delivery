@@ -1,18 +1,18 @@
 {% extends "template_master.html" %}
 {% load static %}
-{% block about_1 %}
-{% endblock about_1 %}
-{% block service_1 %}
-{% endblock service_1 %}
-{% block offer_1 %}
-{% endblock offer_1 %}
-{% block reservation_1 %}
-{% endblock reservation_1 %}
-{% block testimonial_1 %}
-{% endblock testimonial_1 %}
-{% block menu_1 %}
-{% endblock menu_1%}
-{% block navbar_1 %}
+{% block about %}
+{% endblock about %}
+{% block service %}
+{% endblock service %}
+{% block offer %}
+{% endblock offer %}
+{% block reservation %}
+{% endblock reservation %}
+{% block testimonial %}
+{% endblock testimonial %}
+{% block menu %}
+{% endblock menu %}
+{% block navbar %}
 
 <style>
     img{
@@ -33,17 +33,9 @@
                     <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
                     <a href="{% url 'register' %}" class="nav-item nav-link">Sign Up</a>  
                     <a href="{% url 'login' %}" class="nav-item nav-link">Sign In</a>    
-                    <!-- <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Swiggy Business</a>
-                        <div class="dropdown-menu text-capitalize">
-                            <a href="reservation.html" class="dropdown-item">Restaurant</a>
-                            <a href="testimonial.html" class="dropdown-item">Delivery Person</a>
-                        </div>
-                    </div> -->
-                    <!-- <a href="contact.html" class="nav-item nav-link">Contact</a> -->
                 </div>
             </div>
         </nav>
     </div>
 
-{% endblock navbar_1 %}
+{% endblock navbar %}

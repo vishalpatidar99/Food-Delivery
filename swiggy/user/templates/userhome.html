@@ -1,8 +1,8 @@
 {% extends "index.html" %}
 {% load static %}
-{% block carousel_1 %}
-{% endblock carousel_1 %}
-{% block menu_1 %}
+{% block carousel %}
+{% endblock carousel %}
+{% block menu %}
 <style>
     .dishesh{
         margin-left: 12px;
@@ -138,9 +138,9 @@
 </div>
 
 {% endif %}
-{% endblock menu_1 %}
+{% endblock menu %}
 
-{% block navbar_1 %}
+{% block navbar %}
 <div class="container-fluid p-0 nav-bar" style="background-color: rgba(51, 33, 29, .8); height: 100px;">
     <nav class="navbar navbar-expand-lg bg-none navbar-dark">
         <a href="{% url 'user:userhome' %}" class="navbar-brand px-lg-4 m-0">
@@ -176,7 +176,6 @@
                         <a href="{% url 'user:address' %}" class="dropdown-item">Add
                             Address</a>
                         <a href="{% url 'logout' %}" class="dropdown-item">Log out</a>
-
                     </div>
                 </div>
                 <div class="nav-item nav-link"></div>
@@ -185,4 +184,4 @@
     </nav>
 </div>
 
-{% endblock navbar_1 %}
+{% endblock navbar %}

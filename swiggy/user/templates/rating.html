@@ -1,0 +1,97 @@
+{% extends 'userhome.html' %}
+{% load static %}
+{% block menu %}
+<style>
+    img{
+        border-radius: 7px;
+    }
+    .search-btn{
+        height: 35px;
+        border-radius: 7px;
+    }
+    #query{
+        height: 35px;
+        border-radius: 7px;
+    }
+    .heading{
+        padding-left: 5%;
+        width: 90%;
+        padding-top: 10%;
+        padding-bottom: 10px;  
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        justify-items: center;
+    }
+    .main{
+        height: 500px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 3%;
+    }
+    .main1{
+        height: 100%;
+        width: 40%;
+    }
+    .restaurant-photo{
+        height: 200px;
+        width: 200px;
+        display: flex;
+    }
+    .main2{
+        height: 200px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .main3{
+        height: 60px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .main4{
+        height: 100px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .main5{
+        height: 100px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+</style>              
+<div class="heading">
+    <div class="heading_2">
+        <h2>Your Order Placed Successfully</h2>
+    </div>
+</div>
+<div class="main">
+    <div class="main1">
+        <div class="main2">
+            <div class="restaurant-photo">
+
+            </div>
+        </div>
+        <div class="main3">
+            <div class="rate">
+                <h3>Rate Us</h3>
+            </div>
+        </div>
+        <div class="main4">
+            <div class="rating-btn">
+
+            </div>
+        </div>
+        <div class="main5">
+            <div class="submit-btn">
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock menu %}
