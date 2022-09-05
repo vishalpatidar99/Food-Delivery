@@ -47,3 +47,4 @@ class Offer(models.Model):
     promocode = models.CharField(max_length=15)
     description = models.CharField(max_length=100, blank=True)
     terms_and_condition = models.TextField(blank=True)
+    use = models.BooleanField(default=False)

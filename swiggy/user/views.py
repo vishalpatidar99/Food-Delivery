@@ -130,6 +130,7 @@ class Cart(generic.View):
             status = request.GET.get('status')
             item_id = request.GET.get('id')
             q = request.GET.get('q')
+            promo = request.GET.get('promo')
                 
             if status == 'plus':
                 item = CartItems.objects.get(id=int(item_id))
@@ -157,10 +158,20 @@ class Cart(generic.View):
 
             if len(items)>0:
                 tax = total_price/10
-                to_pay = total_price + 25 + tax
+                to_pay = total_price + 25 + tax                
             else:
                 to_pay = 0
                 tax = 0
+
+            if promo:
+                if len(items)>0:
+                    offer = Offer.objects.get(user=request.user,promocode=promo)
+                    after_discount = to_pay*int(offer.offer_in_percentage)/100
+                    after_discount = to_pay - after_discount
+                    return render(request, 'cart.html', {'res':items,'user_address':user_address,'total':total_price,'to_pay':to_pay,'tax':tax,'after_discount':after_discount,'promo':promo})
+                else:
+                    messages.info(request, "First add some items in cart")
+                    return redirect(reverse('user:userhome'))
             
             return render(request, 'cart.html', {'res':items,'user_address':user_address,'total':total_price,'to_pay':to_pay,'tax':tax})
         else:
@@ -171,6 +182,13 @@ class Cart(generic.View):
         payment_method = request.POST['payment']
         total_amount = request.POST['sub']
         confirmation = request.POST['conf']
+        promo = request.POST['promo']
+
+        if promo:
+            offer = Offer.objects.get(promocode=promo)
+            offer.use = True
+            offer.save()
+
         if confirmation == 'Yes':
             address = Address.objects.get(user=request.user,id=address_id)
             items = CartItems.objects.filter(user=request.user, paid=False)
@@ -190,7 +208,8 @@ class Cart(generic.View):
             order.tax_and_charges = tax_and_charges
             order.total_amount = total_price
             order.save()
-            return redirect(reverse('user:rating'))
+            print(order.restaurant.id)
+            return redirect(reverse('user:rating', kwargs={'restaurant_id':order.restaurant.id}))
 
         else:
             user_address = Address.objects.filter(user=request.user)
@@ -235,7 +254,16 @@ class AddAddress(generic.View):
 
 class RatingView(generic.View):
     def get(self, request, *args, **kwargs):
-        return render(request,'rating.html')
+        restaurant_id = kwargs['restaurant_id']
+        restaurant = Restaurant.objects.get(id=restaurant_id)
+        return render(request,'rating.html', {'restaurant':restaurant})
+
+    def post(self, request, *args, **kwargs):
+        rating = request.POST['rating']
+        restaurant_id = request.POST.get('restaurant_id')
+        restaurant = Restaurant.objects.get(id=restaurant_id)
+        Rating.objects.create(user=request.user,restaurant=restaurant,rating=rating)
+        return redirect(reverse('user:userhome'))
     
 class OrderDetailsView(generic.View):
     def get(self, request, *args, **kwargs):
@@ -244,5 +272,5 @@ class OrderDetailsView(generic.View):
 
 class MyOffersView(generic.View):
     def get(self, request, *args, **kwargs):
-        offers = Offer.objects.all()
+        offers = Offer.objects.filter(user=request.user,use=False)
         return render(request, 'myoffers.html', {'offers':offers})

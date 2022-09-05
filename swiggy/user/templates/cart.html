@@ -253,11 +253,7 @@
         width: 100%;
         display: flex;
         justify-content: center;
-    }
-    .coupon{
-        height: 100%;
-        width: 50%;
-        /* background-color: blueviolet; */
+        align-items: center;
     }
     #promo{
         text-align: center;
@@ -274,6 +270,7 @@
         modal.style.display = "none";
       }
     }
+
 </script>
 <div class="main" style="padding-top: 10%;">
     <div class="main_1">
@@ -336,7 +333,12 @@
                     Tax and charges <br/>
                     {% endif %}
                     <hr/>
+                    {% if after_discount %}
+                    <br/>
+                    To pay <br/>
+                    {% else %}
                     To pay
+                    {% endif %}
                 </div>
                 <div class="dish-price">
                     {% for i in res %}
@@ -350,18 +352,26 @@
                     &#8377;{{tax}} <br/>
                     {% endif %}
                     <hr/>
-                    &#8377;{{to_pay}}      
+                    {% if after_discount %}
+                    <del>{{to_pay}}</del> <br/>
+                    {{after_discount}} <br/>
+                    {% else %}
+                    &#8377;{{to_pay}}
+                    {% endif %}      
                 </div>
             </div>
             </div>
             <hr/>
             <div class="select-offer">
+                {% if promo %}
+                <input type="text" name="promo" value="{{promo}}" style="display: none;">
+                {% endif %}
                 <div class="coupon">
-                    <input type="text" id="promo" placeholder="PROMO-CODE"><input type="button" value="Apply">
+                   <a href="{% url 'user:myoffers' %}"><button type="button" class="w3-button">Apply Coupon</button></a>
                 </div>
             </div>
             <div class="payment-method">
-                <h3 id="payment-method">Chose Payment Method</h3>
+                <h3 id="payment-method">Choose Payment Method</h3>
                 <div class="payment">
                     <div class="methods">
                         <div class="method_1">
@@ -401,9 +411,9 @@
     <div class="footer2">
         <input type="text" name="conf" id="placeorder" value="" style="display: none;">
         {% if res %}
-        <button type="submit" class="checkout" onclick="getConfirmation()" name="sub" value="{{to_pay}}">MAKE PAYMENT<div class="total">&#8377;{{to_pay}}</div></button>
+        <button type="submit" class="checkout" onclick="getConfirmation()" name="sub" value="{% if promo %}{{after_discount}}{% else %}{{to_pay}}{% endif %}">MAKE PAYMENT<div class="total">&#8377;{% if promo %}{{after_discount}}{% else %}{{to_pay}}{% endif %}</div></button>
         {% else %}
-        <button type="button" class="checkout" onclick="getAlert()">MAKE PAYMENT<div class="total">&#8377;{{to_pay}}</div></button>
+        <button type="button" class="checkout" onclick="getAlert()">MAKE PAYMENT<div class="total">&#8377;{% if promo %}{{after_discount}}{% else %}{{to_pay}}{% endif %}</div></button>
         {% endif %}
     </div> 
 

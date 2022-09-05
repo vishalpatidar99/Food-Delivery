@@ -14,5 +14,5 @@ urlpatterns=[
     path('address/', views.AddAddress.as_view(),name='address'),
     path('orderdetails/', views.OrderDetailsView.as_view(),name='orderdetails'),
     path('myoffers/', views.MyOffersView.as_view(),name='myoffers'),
-    path('rating/', views.RatingView.as_view(), name='rating'),
+    path('rating/<int:restaurant_id>/', views.RatingView.as_view(), name='rating'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
