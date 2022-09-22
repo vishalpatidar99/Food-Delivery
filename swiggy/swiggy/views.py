@@ -48,7 +48,7 @@ class UserLogin(generic.View):
         user = authenticate(username=username,password=password)
         if user is not None:
             login(request, user)
-            return redirect('/user/')
+            return redirect(reverse('user:userhome'))
         else:
             form = AuthenticationForm() 
             messages.error(request, 'Invalid Details, Try again')

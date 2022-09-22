@@ -182,7 +182,7 @@ class Cart(generic.View):
         payment_method = request.POST['payment']
         total_amount = request.POST['sub']
         confirmation = request.POST['conf']
-        promo = request.POST['promo']
+        promo = request.POST.get('promo')
 
         if promo:
             offer = Offer.objects.get(promocode=promo)
@@ -208,7 +208,6 @@ class Cart(generic.View):
             order.tax_and_charges = tax_and_charges
             order.total_amount = total_price
             order.save()
-            print(order.restaurant.id)
             return redirect(reverse('user:rating', kwargs={'restaurant_id':order.restaurant.id}))
 
         else:
