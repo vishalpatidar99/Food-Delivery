@@ -1,0 +1,9 @@
+version: '3.4'
+services:
+  food-delivery:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: foo-delivery
+    ports:
+      - "9998:9998"

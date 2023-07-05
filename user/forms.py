@@ -1,7 +1,7 @@
 from django import forms
 from .models import*
 from django.contrib.auth.forms import AuthenticationForm
-from swiggy.models import*
+from food_delivery.models import*
 
 # class RestaurantForm(forms.ModelForm):
 #     class Meta:

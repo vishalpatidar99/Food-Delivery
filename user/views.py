@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from restaurant.models import*
 from .forms import*
 from.models import *
-from swiggy.models import*
+from food_delivery.models import*
 from django.contrib import messages
 # Create your views here.
 
