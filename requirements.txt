@@ -1,5 +1,5 @@
 asgiref==3.5.2
-Django==4.1
+Django==4.1.13
 django-phonenumber-field==6.3.0
 phonenumberslite==8.12.53
 sqlparse==0.4.2
